@@ -1,6 +1,6 @@
 name: Buld and Deploy
 
-on: 
+on:
   push:
     branches:
       - main
@@ -14,16 +14,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        
+
       - name: NPM Install
         run: npm install
-        
+
       - name: NPM Build
-        run: npm run build
+        run: npm run build-github-pages
 
       - name: Set up 404 Page
         run: cp dist/gym-lessons-angular-application/browser/index.html dist/gym-lessons-angular-application/browser/404.html
-        
+
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
