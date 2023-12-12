@@ -21,7 +21,10 @@ jobs:
       - name: NPM Build
         run: npm run build-github-pages
 
+      - name: Set up 404 Page
+        run: cp dist/gym-lessons-angular-application/browser/index.html dist/gym-lessons-angular-application/browser/404.html
+
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: dist/gym-lessons-angular-application
+          folder: dist/gym-lessons-angular-application/browser
