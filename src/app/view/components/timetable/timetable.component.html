@@ -1,1 +1,8 @@
-<p>timetable works!</p>
+<div class="timetable">
+    <div class="days" *ngFor="let entry of entries">
+        <p class="day">{{entry[1]}}</p>
+        <div class="lessions" *ngFor="let e of entry[0]">
+            <div class={{e[1]}} >{{e[0]}}</div>
+        </div>
+    </div>
+</div>
