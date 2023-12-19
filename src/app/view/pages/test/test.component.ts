@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {DataBrokerService} from "../../../services/data-broker.service";
 
 @Component({
   selector: 'app-test',
@@ -8,5 +9,9 @@ import { Component } from '@angular/core';
   styleUrl: './test.component.scss'
 })
 export class TestComponent {
+
+    constructor(private databroker: DataBrokerService) {
+
+    }
 
 }

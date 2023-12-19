@@ -6,9 +6,8 @@
     },
     "entries": {
         "files": [
-            "1. Sem. Export für Upload SchulNetz, detailliert.txt",
-            "2. Sem. Export für Upload SchulNetz, detailliert.txt"
+            "1. Sem. Export für Upload SchulNetz, detailliert.txt"
         ],
-        "fields": ["abbr", "year", "month", "day", "profile", "lesson", "class", "room", "", "", "", "time", "duration", ""]
+        "fields": ["abbr", "year", "month", "day", "index", "lesson", "class", "room", "", "", "", "time", "duration", ""]
     }
 }
