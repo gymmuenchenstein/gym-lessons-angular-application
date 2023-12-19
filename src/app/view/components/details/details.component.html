@@ -1,1 +1,17 @@
 <p>details works!</p>
+<ng-template #content let-offcanvas>
+    <div class="offcanvas-header">
+        <h4 class="offcanvas-title">Chemie</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="offcanvas.dismiss('Cross click')"></button>
+    </div>
+    <div class="offcanvas-body">
+        <p> Zimmer: 708<br>
+            Zeit: 8:00-8:45<br>
+            Lehrpersonen: Max Mustermänner<br>
+            Klassen: M1b<br>
+
+        </p>
+    </div>
+</ng-template>
+
+<button class="btn btn-lg btn-outline-primary mb-2 me-2" (click)="openEnd(content)">C 708</button>
