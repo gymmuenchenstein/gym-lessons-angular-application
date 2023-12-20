@@ -1,8 +1,7 @@
 import {Temporal} from "@js-temporal/polyfill";
-import PlainDate = Temporal.PlainDate;
-import PlainTime = Temporal.PlainTime;
 import Duration = Temporal.Duration;
 import {CalendarDataClass} from "./calendar-data-class";
+import PlainDateTime = Temporal.PlainDateTime;
 
 export interface CalendarDataEntry {
     index: number,
@@ -11,9 +10,6 @@ export interface CalendarDataEntry {
     room: string,
     lesson: string,
     class: CalendarDataClass,
-    date: PlainDate
-    time: {
-        start: PlainTime,
-        duration: Duration
-    }
+    datetime: PlainDateTime
+    duration: Duration
 }

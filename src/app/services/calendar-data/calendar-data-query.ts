@@ -2,6 +2,7 @@ import {RawCalendarDataEntry} from "./data-entries/raw-calendar-data-entry";
 import {CalendarDataEntry} from "./data-entries/calendar-data-entry";
 import {Temporal} from "@js-temporal/polyfill";
 import {CalendarDataClassDepartment} from "./data-entries/calendar-data-class-department";
+import PlainDate = Temporal.PlainDate;
 
 export class CalendarDataQuery {
 
@@ -28,12 +29,12 @@ export class CalendarDataQuery {
      */
     week(args: { year: number, month: number, day: number }) {
         const rootDate = Temporal.PlainDate.from(args);
-        const startDate = rootDate.subtract({days: rootDate.dayOfWeek});
-        const endDate = startDate.add(Temporal.Duration.from({weeks: 1}));
+        const startDate = rootDate.subtract({days: rootDate.dayOfWeek - 1});
+        const endDate = startDate.add(Temporal.Duration.from({days: 6}));
 
         this.raw = this.raw.filter((entry) => {
             return (entry.day >= startDate.day && entry.month >= startDate.month && entry.year >= startDate.year) &&
-                (entry.day >= endDate.day && entry.month >= endDate.month && entry.year >= endDate.year)
+                (entry.day <= endDate.day && entry.month <= endDate.month && entry.year <= endDate.year)
         });
         return this;
     }
@@ -72,6 +73,17 @@ export class CalendarDataQuery {
     }
 
     /**
+     * Filters all calendar entries by the condition of similarity to the teachers abbreviation
+     * @param args lesson
+     */
+    lesson(args: { lesson: string }) {
+        this.raw = this.raw.filter((entry) => {
+            return entry.lesson.toLowerCase().includes(args.lesson.toLowerCase());
+        });
+        return this;
+    }
+
+    /**
      * Filters all calendar entries by the condition of similarity to the teachers name
      * @param args the teachers name
      */
@@ -104,19 +116,19 @@ export class CalendarDataQuery {
                 room: entry.room,
                 lesson: entry.lesson,
                 class: {
-                    department: {"M": CalendarDataClassDepartment.MA, "F": CalendarDataClassDepartment.FMS}[entry.class.slice(0, 1)] as CalendarDataClassDepartment,
+                    department: {
+                        "m": CalendarDataClassDepartment.MA,
+                        "f": CalendarDataClassDepartment.FMS
+                    }[entry.class.toLowerCase().slice(0, 1)] as CalendarDataClassDepartment,
                     year: Number(entry.class.slice(1, 2)),
                     alpha: entry.class.slice(2, 3).toLowerCase()
                 },
-                date: Temporal.PlainDate.from({
+                datetime: Temporal.PlainDateTime.from({
                     year: Number(entry.year),
                     month: Number(entry.month),
                     day: Number(entry.day)
-                }),
-                time: {
-                    start: Temporal.PlainTime.from((String(entry.time).length == 3 ? "0" : "") + entry.time),
-                    duration: Temporal.Duration.from({minutes: Number(entry.duration)})
-                }
+                }).withPlainTime(Temporal.PlainTime.from((String(entry.time).length === 3 ? '0' : '') + String(entry.time))),
+                duration: Temporal.Duration.from({minutes: Number(entry.duration)})
             }
             clean.push(obj);
         }
