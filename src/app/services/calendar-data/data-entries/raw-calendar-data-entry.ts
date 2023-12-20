@@ -1,4 +1,4 @@
-export interface RawDataEntry {
+export interface RawCalendarDataEntry {
     index: number,
     abbr: string,
     room: string,

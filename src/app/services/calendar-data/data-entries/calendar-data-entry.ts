@@ -3,7 +3,7 @@ import PlainDate = Temporal.PlainDate;
 import PlainTime = Temporal.PlainTime;
 import Duration = Temporal.Duration;
 
-export interface DataEntry {
+export interface CalendarDataEntry {
     index: number,
     abbr: string,
     room: string,
