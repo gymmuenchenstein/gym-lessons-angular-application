@@ -1,6 +1,7 @@
 import {RawCalendarDataEntry} from "./data-entries/raw-calendar-data-entry";
 import {CalendarDataEntry} from "./data-entries/calendar-data-entry";
 import {Temporal} from "@js-temporal/polyfill";
+import {CalendarDataClassDepartment} from "./data-entries/calendar-data-class-department";
 
 export class CalendarDataQuery {
 
@@ -98,10 +99,15 @@ export class CalendarDataQuery {
         for (const entry of this.raw) {
             obj = {
                 index: entry.index,
+                teacher: entry.abbr, // TODO: add full name of teacher
                 abbr: entry.abbr,
                 room: entry.room,
                 lesson: entry.lesson,
-                class: entry.class,
+                class: {
+                    department: {"M": CalendarDataClassDepartment.MA, "F": CalendarDataClassDepartment.FMS}[entry.class.slice(0, 1)],
+                    year: Number(entry.class.slice(1, 2)),
+                    alpha: entry.class.slice(2, 3).toLowerCase()
+                },
                 date: Temporal.PlainDate.from({
                     year: Number(entry.year),
                     month: Number(entry.month),
