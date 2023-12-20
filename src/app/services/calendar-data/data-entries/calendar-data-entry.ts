@@ -13,7 +13,7 @@ export interface CalendarDataEntry {
     class: CalendarDataClass,
     date: PlainDate
     time: {
-        time: PlainTime,
+        start: PlainTime,
         duration: Duration
     }
 }

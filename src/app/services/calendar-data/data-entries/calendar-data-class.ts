@@ -5,4 +5,3 @@ export interface CalendarDataClass {
     year: number,
     alpha: string
 }
-

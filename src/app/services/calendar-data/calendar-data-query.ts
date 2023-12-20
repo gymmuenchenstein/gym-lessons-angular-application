@@ -104,7 +104,7 @@ export class CalendarDataQuery {
                 room: entry.room,
                 lesson: entry.lesson,
                 class: {
-                    department: {"M": CalendarDataClassDepartment.MA, "F": CalendarDataClassDepartment.FMS}[entry.class.slice(0, 1)],
+                    department: {"M": CalendarDataClassDepartment.MA, "F": CalendarDataClassDepartment.FMS}[entry.class.slice(0, 1)] as CalendarDataClassDepartment,
                     year: Number(entry.class.slice(1, 2)),
                     alpha: entry.class.slice(2, 3).toLowerCase()
                 },
@@ -114,7 +114,7 @@ export class CalendarDataQuery {
                     day: Number(entry.day)
                 }),
                 time: {
-                    time: Temporal.PlainTime.from((String(entry.time).length == 3 ? "0" : "") + entry.time),
+                    start: Temporal.PlainTime.from((String(entry.time).length == 3 ? "0" : "") + entry.time),
                     duration: Temporal.Duration.from({minutes: Number(entry.duration)})
                 }
             }

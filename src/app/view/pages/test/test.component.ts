@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {DataBrokerService} from "../../../services/data-broker.service";
+import {CalendarDataBrokerService} from "../../../services/calendar-data/calendar-data-broker.service";
 
 @Component({
   selector: 'app-test',
@@ -10,8 +10,10 @@ import {DataBrokerService} from "../../../services/data-broker.service";
 })
 export class TestComponent {
 
-    constructor(private databroker: DataBrokerService) {
-
+    constructor(private broker: CalendarDataBrokerService) {
+        this.broker.onInitialized.subscribe(() => {
+            console.log(this.broker.query().month({year:2024, month:1}).class({class: "M2g"}).abbr({abbr: "Sü"}).export());
+        })
     }
 
 }
