@@ -6,7 +6,7 @@
     },
     "entries": {
         "files": [
-            "1. Sem. Export für Upload SchulNetz, detailliert.txt"
+            "1. Sem. Export für Upload SchulNetz, detailliert.csv"
         ],
         "fields": ["abbr", "year", "month", "day", "index", "lesson", "class", "room", "", "", "", "time", "duration", ""]
     }
