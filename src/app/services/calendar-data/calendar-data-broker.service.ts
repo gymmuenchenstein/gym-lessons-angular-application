@@ -3,8 +3,6 @@ import csv from "csvtojson";
 import {HttpClient} from "@angular/common/http";
 import {CalendarDataConfig} from "./calendar-data-config";
 import {RawCalendarDataEntry} from "./data-entries/raw-calendar-data-entry";
-import {CalendarDataEntry} from "./data-entries/calendar-data-entry";
-import {Temporal} from "@js-temporal/polyfill";
 import {CalendarDataQuery} from "./calendar-data-query";
 
 @Injectable({

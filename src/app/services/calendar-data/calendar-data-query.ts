@@ -7,9 +7,11 @@ import PlainDate = Temporal.PlainDate;
 export class CalendarDataQuery {
 
     private raw: RawCalendarDataEntry[];
+    private readonly length: number;
 
     constructor(raw: RawCalendarDataEntry[]) {
         this.raw = raw;
+        this.length = raw.length;
     }
 
     /**
@@ -98,12 +100,16 @@ export class CalendarDataQuery {
     /**
      * When the calendar data has been filtered, this method is used to export it to a more readable format.
      * <br>
+     * The returned list is empty if no filters have been applied previously.
+     * <br>
      * ---
      * *Note: this step is done last since it is a serious bottleneck for large amounts of data*
      * @returns the cleaned calendar data, as in: combined duplicates / overlaps and readable datatype
      */
     export() {
         const clean: CalendarDataEntry[] = [];
+
+        if (this.length <= this.raw.length) return [];
 
         // TODO: merge duplicate/overlapping entries
 
