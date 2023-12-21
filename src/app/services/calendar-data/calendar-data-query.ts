@@ -117,11 +117,14 @@ export class CalendarDataQuery {
         for (const entry of this.raw) {
             obj = {
                 index: entry.index,
-                teacher: entry.abbr, // TODO: add full name of teacher
-                abbr: entry.abbr,
+                teacher: {
+                    name: entry.abbr, // TODO: add full name of teacher
+                    abbr: entry.abbr
+                },
                 room: entry.room,
                 lesson: entry.lesson,
                 class: {
+                    full: entry.class,
                     department: {
                         "m": CalendarDataClassDepartment.MA,
                         "f": CalendarDataClassDepartment.FMS

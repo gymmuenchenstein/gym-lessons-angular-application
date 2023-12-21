@@ -1,15 +1,22 @@
 import {Temporal} from "@js-temporal/polyfill";
 import Duration = Temporal.Duration;
-import {CalendarDataClass} from "./calendar-data-class";
 import PlainDateTime = Temporal.PlainDateTime;
+import {CalendarDataClassDepartment} from "./calendar-data-class-department";
 
 export interface CalendarDataEntry {
     index: number,
-    teacher: string,
-    abbr: string,
+    teacher: {
+        name: string,
+        abbr: string
+    },
     room: string,
     lesson: string,
-    class: CalendarDataClass,
+    class: {
+        full: string,
+        department: CalendarDataClassDepartment,
+        year: number,
+        alpha: string
+    },
     datetime: PlainDateTime
     duration: Duration
 }
