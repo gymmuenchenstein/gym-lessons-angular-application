@@ -5,19 +5,19 @@ import {CalendarDataClassDepartment} from "./calendar-data-class-department";
 
 export interface CalendarDataEntry {
     index: number,
-    teacher: {
+    teachers: {
         surname: string,
         name: string,
         abbr: string
-    },
+    }[],
     room: string,
     lesson: string,
-    class: {
+    classes: {
         full: string,
         department: CalendarDataClassDepartment,
         year: number,
         alpha: string
-    },
+    }[],
     datetime: PlainDateTime
     duration: Duration
 }

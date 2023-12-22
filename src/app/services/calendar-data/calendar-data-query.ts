@@ -110,7 +110,7 @@ export class CalendarDataQuery {
      * @returns the cleaned calendar data, as in: combined duplicates / overlaps and readable datatype
      */
     export() {
-        const clean: CalendarDataEntry[] = [];
+        let clean: CalendarDataEntry[] = [];
 
         if (this.length <= this.raw.length) return [];
 
@@ -118,17 +118,19 @@ export class CalendarDataQuery {
 
         let obj: CalendarDataEntry;
         for (const entry of this.raw) {
-            const teacher = this.teachers.filter((teacher) => { return teacher.abbr == entry.abbr})[0];
+            const teacher = this.teachers.filter((teacher) => {
+                return teacher.abbr == entry.abbr
+            })[0];
             obj = {
                 index: entry.index,
-                teacher: {
+                teachers: [{
                     surname: teacher.surname,
                     name: teacher.name,
                     abbr: entry.abbr
-                },
+                }],
                 room: entry.room,
                 lesson: entry.lesson,
-                class: {
+                classes: [{
                     full: entry.class,
                     department: {
                         "m": CalendarDataClassDepartment.MA,
@@ -136,7 +138,7 @@ export class CalendarDataQuery {
                     }[entry.class.toLowerCase().slice(0, 1)] as CalendarDataClassDepartment,
                     year: Number(entry.class.slice(1, 2)),
                     alpha: entry.class.slice(2, 3).toLowerCase()
-                },
+                }],
                 datetime: Temporal.PlainDateTime.from({
                     year: Number(entry.year),
                     month: Number(entry.month),
@@ -144,7 +146,31 @@ export class CalendarDataQuery {
                 }).withPlainTime(Temporal.PlainTime.from((String(entry.time).length === 3 ? '0' : '') + String(entry.time))),
                 duration: Temporal.Duration.from({minutes: Number(entry.duration)})
             }
-            clean.push(obj);
+
+            const duplicate = clean.find((duplicate) => {
+                return duplicate.index == obj.index && duplicate.room == obj.room && duplicate.lesson == obj.lesson;
+            });
+            if (duplicate !== undefined) {
+                clean = clean.map((enteredEntry) => {
+                    if (enteredEntry.index == obj.index && enteredEntry.room == obj.room && enteredEntry.lesson == obj.lesson) {
+                        for (const classes of obj.classes) {
+                            if (enteredEntry.classes.find((enteredClass) => {
+                                return enteredClass.full === classes.full
+                            }) === undefined && classes.full !== "")
+                                enteredEntry.classes.push(classes);
+                        }
+                        for (const teacher of obj.teachers) {
+                            if (enteredEntry.teachers.find((enteredTeacher) => {
+                                return enteredTeacher.abbr === teacher.abbr
+                            }) === undefined && teacher.abbr !== undefined)
+                                enteredEntry.teachers.push(teacher);
+                        }
+                    }
+                    return enteredEntry;
+                });
+            } else {
+                clean.push(obj);
+            }
         }
 
         return clean;
