@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {CalendarDataConfig} from "./calendar-data-config";
 import {RawCalendarDataEntry} from "./data-entries/raw-calendar-data-entry";
 import {CalendarDataQuery} from "./calendar-data-query";
+import {RawTeacherDataEntry} from "./data-entries/raw-teacher-data-entry";
 
 @Injectable({
     providedIn: 'root'
@@ -11,6 +12,7 @@ import {CalendarDataQuery} from "./calendar-data-query";
 export class CalendarDataBrokerService {
 
     private config!: CalendarDataConfig;
+    private teachers!: RawTeacherDataEntry[];
     private raw!: RawCalendarDataEntry[];
 
     /**
@@ -26,6 +28,7 @@ export class CalendarDataBrokerService {
 
     private async init() {
         this.config = await this.readConfig();
+        this.teachers = await this.readTeachers("assets/" + this.config.dataPath + this.config.teachers.file, this.config.teachers.fields);
         this.raw = await this.readAll(this.config.dataPath, this.config.entries.files, this.config.entries.fields);
     }
 
@@ -33,6 +36,16 @@ export class CalendarDataBrokerService {
         return new Promise<CalendarDataConfig>((resolve) => {
             this.http.get("assets/calendar-data.config.json", {responseType: "json"}).subscribe(data => {
                 resolve(data as CalendarDataConfig);
+            });
+        });
+    }
+
+    private async readTeachers(path: string, fields: string[]) {
+        return new Promise<RawTeacherDataEntry[]>((resolve) => {
+            this.http.get(path, {responseType: "text"}).subscribe(table => {
+                csv({headers: fields, delimiter: [",", ";", "|", "\t"]}).fromString(table).then(entries => {
+                    resolve(Object.values(entries) as RawTeacherDataEntry[]);
+                });
             });
         });
     }
@@ -52,7 +65,7 @@ export class CalendarDataBrokerService {
     private async read(path: string, fields: string[]) {
         return new Promise<RawCalendarDataEntry[]>((resolve) => {
             this.http.get(path, {responseType: "text"}).subscribe(table => {
-                csv({headers: fields}).fromString(table).then(entries => {
+                csv({headers: fields, delimiter: [",", ";", "|", "\t"]}).fromString(table).then(entries => {
                     resolve(Object.values(entries));
                 });
             });
@@ -64,6 +77,6 @@ export class CalendarDataBrokerService {
      * @return CalendarDataQuery used for querying calendar data
      */
     query() {
-        return new CalendarDataQuery(this.raw);
+        return new CalendarDataQuery(this.raw, this.teachers);
     }
 }

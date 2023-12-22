@@ -3,15 +3,18 @@ import {CalendarDataEntry} from "./data-entries/calendar-data-entry";
 import {Temporal} from "@js-temporal/polyfill";
 import {CalendarDataClassDepartment} from "./data-entries/calendar-data-class-department";
 import PlainDate = Temporal.PlainDate;
+import {RawTeacherDataEntry} from "./data-entries/raw-teacher-data-entry";
 
 export class CalendarDataQuery {
 
     private raw: RawCalendarDataEntry[];
+    private teachers: RawTeacherDataEntry[];
     private readonly length: number;
 
-    constructor(raw: RawCalendarDataEntry[]) {
+    constructor(raw: RawCalendarDataEntry[], teachers: RawTeacherDataEntry[] = []) {
         this.raw = raw;
         this.length = raw.length;
+        this.teachers = teachers;
     }
 
     /**
@@ -115,10 +118,12 @@ export class CalendarDataQuery {
 
         let obj: CalendarDataEntry;
         for (const entry of this.raw) {
+            const teacher = this.teachers.filter((teacher) => { return teacher.abbr == entry.abbr})[0];
             obj = {
                 index: entry.index,
                 teacher: {
-                    name: entry.abbr, // TODO: add full name of teacher
+                    surname: teacher.surname,
+                    name: teacher.name,
                     abbr: entry.abbr
                 },
                 room: entry.room,

@@ -6,6 +6,7 @@ import {CalendarDataClassDepartment} from "./calendar-data-class-department";
 export interface CalendarDataEntry {
     index: number,
     teacher: {
+        surname: string,
         name: string,
         abbr: string
     },
