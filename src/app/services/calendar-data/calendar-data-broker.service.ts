@@ -47,8 +47,9 @@ export class CalendarDataBrokerService {
             this.http.get(path, {responseType: "text"}).subscribe(table => {
                 const data = this.csv(fields, /[,;|\t]/gsm, table) as RawTeacherDataEntry[];
                 for (const dat of data) {
-                    if (!this.uniques.teachers.find(unique => { return unique.abbr === dat.abbr })) {
-                        this.uniques.teachers.push({ abbr: dat.abbr, name: dat.name, surname: dat.surname });
+                    if (!this.uniques.abbrs.find(unique => { return unique === dat.abbr })) {
+                        this.uniques.abbrs.push(dat.abbr);
+                        this.uniques.teachers.push(dat.surname + " " + dat.name);
                     }
                 }
                 resolve(data);
@@ -82,16 +83,8 @@ export class CalendarDataBrokerService {
                     if (!this.uniques.lessons.find(unique => { return unique === dat.lesson })) {
                         this.uniques.lessons.push(dat.lesson);
                     }
-                    if (!this.uniques.classes.find(unique => { return unique.full === dat.class })) {
-                        this.uniques.classes.push({
-                            full: dat.class,
-                            department: {
-                                "m": CalendarDataClassDepartment.MA,
-                                "f": CalendarDataClassDepartment.FMS
-                            }[dat.class.toLowerCase().slice(0, 1)] as CalendarDataClassDepartment,
-                            year: Number(dat.class.slice(1, 2)),
-                            alpha: dat.class.slice(2, 3).toLowerCase()
-                        });
+                    if (!this.uniques.classes.find(unique => { return unique === dat.class })) {
+                        this.uniques.classes.push(dat.class);
                     }
                 }
                 resolve(data);

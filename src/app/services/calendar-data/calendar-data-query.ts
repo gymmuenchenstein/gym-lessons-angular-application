@@ -113,8 +113,6 @@ export class CalendarDataQuery {
 
         //if (this.length <= this.raw.length) return [];
 
-        // TODO: merge duplicate/overlapping entries
-
         let obj: CalendarDataEntry;
         for (const entry of this.raw) {
             const teacher = this.teachers.filter((teacher) => {
