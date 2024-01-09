@@ -2,7 +2,6 @@ import {RawCalendarDataEntry} from "./data-entries/raw-calendar-data-entry";
 import {CalendarDataEntry} from "./data-entries/calendar-data-entry";
 import {Temporal} from "@js-temporal/polyfill";
 import {CalendarDataClassDepartment} from "./data-entries/calendar-data-class-department";
-import PlainDate = Temporal.PlainDate;
 import {RawTeacherDataEntry} from "./data-entries/raw-teacher-data-entry";
 
 export class CalendarDataQuery {
@@ -112,7 +111,7 @@ export class CalendarDataQuery {
     export() {
         let clean: CalendarDataEntry[] = [];
 
-        if (this.length <= this.raw.length) return [];
+        //if (this.length <= this.raw.length) return [];
 
         // TODO: merge duplicate/overlapping entries
 
@@ -124,8 +123,8 @@ export class CalendarDataQuery {
             obj = {
                 index: entry.index,
                 teachers: [{
-                    surname: teacher.surname,
-                    name: teacher.name,
+                    surname: teacher?.surname,
+                    name: teacher?.name,
                     abbr: entry.abbr
                 }],
                 room: entry.room,
