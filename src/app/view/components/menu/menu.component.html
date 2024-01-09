@@ -1,4 +1,17 @@
-<button class="btn btn-lg btn-outline-primary" (click)="open()">Launch demo offcanvas</button>
+<p>A typeahead example that uses a formatter function for string results</p>
+
+<label for="typeahead-format">Suche einen Stundenplan:</label>
+<input
+    id="typeahead-format"
+    type="text"
+    class="form-control"
+    [(ngModel)]="model"
+    [ngbTypeahead]="search"
+    [resultFormatter]="formatter"
+/>
+
+<hr />
+<pre>Model: {{ model | json }}</pre>
 <div ngbAccordion>
     <div ngbAccordionItem>
         <h2 ngbAccordionHeader>
@@ -9,7 +22,7 @@
                 <div ngbAccordion>
                     <div ngbAccordionItem>
                         <h2 ngbAccordionHeader>
-                            <button ngbAccordionButton>Maturität</button>
+                            <button ngbAccordionButton>Maturitaet</button>
                         </h2>
                         <div ngbAccordionCollapse>
                             <div ngbAccordionBody>
@@ -64,7 +77,7 @@
                 <div ngbAccordion>
                     <div ngbAccordionItem>
                         <h2 ngbAccordionHeader>
-                            <button ngbAccordionButton>Fachmaturität</button>
+                            <button ngbAccordionButton>Fachmaturitaet</button>
                         </h2>
                         <div ngbAccordionCollapse>
                             <div ngbAccordionBody>
@@ -136,7 +149,7 @@
 <div ngbAccordion>
     <div ngbAccordionItem>
         <h2 ngbAccordionHeader>
-            <button ngbAccordionButton>Räume</button>
+            <button ngbAccordionButton>Raeume</button>
         </h2>
         <div ngbAccordionCollapse>
             <div ngbAccordionBody>
