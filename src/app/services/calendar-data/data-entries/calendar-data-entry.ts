@@ -1,7 +1,6 @@
-import {Temporal} from "@js-temporal/polyfill";
-import Duration = Temporal.Duration;
-import PlainDateTime = Temporal.PlainDateTime;
 import {CalendarDataClassDepartment} from "./calendar-data-class-department";
+import {Duration} from "dayjs/plugin/duration";
+import {Dayjs} from "dayjs";
 
 export class CalendarDataEntry {
     index: number = 0
@@ -18,6 +17,6 @@ export class CalendarDataEntry {
         year: number,
         alpha: string
     }[] = []
-    datetime: PlainDateTime | undefined
+    datetime: Dayjs | undefined
     duration: Duration | undefined
 }

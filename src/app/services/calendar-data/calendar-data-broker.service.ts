@@ -4,17 +4,17 @@ import {CalendarDataConfig} from "./calendar-data-config";
 import {RawCalendarDataEntry} from "./data-entries/raw-calendar-data-entry";
 import {CalendarDataQuery} from "./calendar-data-query";
 import {RawTeacherDataEntry} from "./data-entries/raw-teacher-data-entry";
-import {CalendarDataClassDepartment} from "./data-entries/calendar-data-class-department";
 import {CalendarDataUniques} from "./data-entries/calendar-data-uniques";
+import {CalendarFilterService} from "../calendar-filter/calendar-filter.service";
 
 @Injectable({
     providedIn: 'root'
 })
 export class CalendarDataBrokerService {
 
-    private config!: CalendarDataConfig;
-    private teachers!: RawTeacherDataEntry[];
-    private raw!: RawCalendarDataEntry[];
+    private config: CalendarDataConfig | undefined;
+    private teachers: RawTeacherDataEntry[] = [];
+    private raw: RawCalendarDataEntry[] = [];
     private uniques: CalendarDataUniques = new CalendarDataUniques();
 
     /**
@@ -22,7 +22,7 @@ export class CalendarDataBrokerService {
      */
     onInitialized: EventEmitter<void> = new EventEmitter();
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, private filter: CalendarFilterService) {
         this.init().then(() => {
             this.onInitialized.emit();
         });
@@ -111,8 +111,12 @@ export class CalendarDataBrokerService {
      * This is a factory method; used to initialize a query object in order to select calendar data
      * @return CalendarDataQuery used for querying calendar data
      */
-    query() {
-        return new CalendarDataQuery(this.raw, this.teachers);
+    query(useFilter: boolean = true) {
+        const query = new CalendarDataQuery(this.raw, this.teachers);
+        if (useFilter)
+            return this.filter.filter(query);
+        else
+            return query;
     }
 
     /**

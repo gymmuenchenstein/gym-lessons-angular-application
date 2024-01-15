@@ -1,18 +1,21 @@
 import {RawCalendarDataEntry} from "./data-entries/raw-calendar-data-entry";
 import {CalendarDataEntry} from "./data-entries/calendar-data-entry";
-import {Temporal} from "@js-temporal/polyfill";
 import {CalendarDataClassDepartment} from "./data-entries/calendar-data-class-department";
 import {RawTeacherDataEntry} from "./data-entries/raw-teacher-data-entry";
+import dayjs from "dayjs";
+import dayjsObjectSupport from "dayjs/plugin/objectSupport";
+import dayjsDuration from "dayjs/plugin/duration";
+
+dayjs.extend(dayjsObjectSupport);
+dayjs.extend(dayjsDuration);
 
 export class CalendarDataQuery {
 
     private raw: RawCalendarDataEntry[];
     private teachers: RawTeacherDataEntry[];
-    private readonly length: number;
 
     constructor(raw: RawCalendarDataEntry[], teachers: RawTeacherDataEntry[] = []) {
         this.raw = raw;
-        this.length = raw.length;
         this.teachers = teachers;
     }
 
@@ -32,13 +35,13 @@ export class CalendarDataQuery {
      * @param args year, month and day (any day of the week)
      */
     week(args: { year: number, month: number, day: number }) {
-        const rootDate = Temporal.PlainDate.from(args);
-        const startDate = rootDate.subtract({days: rootDate.dayOfWeek - 1});
-        const endDate = startDate.add(Temporal.Duration.from({days: 6}));
+        const rootDate = dayjs(args);
+        const startDate = rootDate.subtract({days: rootDate.day() });
+        const endDate = startDate.add(dayjs.duration({days: 6}));
 
         this.raw = this.raw.filter((entry) => {
-            return (entry.day >= startDate.day && entry.month >= startDate.month && entry.year >= startDate.year) &&
-                (entry.day <= endDate.day && entry.month <= endDate.month && entry.year <= endDate.year)
+            return (entry.day >= startDate.day() && entry.month >= startDate.month() && entry.year >= startDate.year()) &&
+                (entry.day <= endDate.day() && entry.month <= endDate.month() && entry.year <= endDate.year())
         });
         return this;
     }
@@ -111,8 +114,6 @@ export class CalendarDataQuery {
     export() {
         let clean: CalendarDataEntry[] = [];
 
-        //if (this.length <= this.raw.length) return [];
-
         let obj: CalendarDataEntry;
         for (const entry of this.raw) {
             const teacher = this.teachers.filter((teacher) => {
@@ -136,12 +137,14 @@ export class CalendarDataQuery {
                     year: Number(entry.class.slice(1, 2)),
                     alpha: entry.class.slice(2, 3).toLowerCase()
                 }],
-                datetime: Temporal.PlainDateTime.from({
+                datetime: dayjs({
                     year: Number(entry.year),
                     month: Number(entry.month),
-                    day: Number(entry.day)
-                }).withPlainTime(Temporal.PlainTime.from((String(entry.time).length === 3 ? '0' : '') + String(entry.time))),
-                duration: Temporal.Duration.from({minutes: Number(entry.duration)})
+                    day: Number(entry.day),
+                    minute: Number(String(entry.time).slice(String(entry.time).length - 2, String(entry.time).length)),
+                    hour: Number(String(entry.time).slice(0, String(entry.time).length - 2)),
+                }),
+                duration: dayjs.duration({minutes: Number(entry.duration)})
             }
 
             const duplicate = clean.find((duplicate) => {

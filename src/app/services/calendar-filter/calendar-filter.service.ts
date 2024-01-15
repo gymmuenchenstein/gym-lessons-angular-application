@@ -50,10 +50,8 @@ export class CalendarFilterService {
 
     filter(query: CalendarDataQuery) {
         for (const [key, args] of Object.entries(this.currentFilterSequence)) {
-            // @ts-ignore
-            if (query[key]) {
-                // @ts-ignore
-                query[key](args);
+            if ((query as any)[key]) {
+                (query as any)[key](args);
             }
         }
         return query
