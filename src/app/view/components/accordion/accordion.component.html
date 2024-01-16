@@ -1,0 +1,29 @@
+@if (data) {
+
+    @if (data.nestedData?.length) {
+
+        <div (click)="showNestedData = !showNestedData" class="">
+            {{ data.label }}
+            @if (showNestedData) {
+                <i class="bi bi-chevron-up"></i>
+            } @else {
+                <i class="bi bi-chevron-down"></i>
+            }
+        </div>
+
+    } @else {
+
+        <div (click)="data.action && data.action()" class="">
+            {{ data.label }}
+        </div>
+
+    }
+
+    @if (showNestedData) {
+        @for (d of data.nestedData; track d) {
+            <app-accordion [data]="d"></app-accordion>
+        }
+    }
+
+}
+
