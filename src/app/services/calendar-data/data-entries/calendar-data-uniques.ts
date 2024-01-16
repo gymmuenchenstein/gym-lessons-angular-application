@@ -1,8 +1,7 @@
 
 export class CalendarDataUniques {
     indices: number[] = []
-    teachers: string[] = []
-    abbrs: string[] = []
+    teachers: { surname: string, name: string, abbr: string }[] = []
     rooms: string[] = []
     lessons: string[] = []
     classes: string[] = []

@@ -95,8 +95,15 @@ export class CalendarDataQuery {
      * @param args the teachers name
      */
     teacher(args: { teacher: string }) {
-        // TODO
         this.raw = this.raw.filter((entry) => {
+            const teachers = this.teachers.filter(value => {
+                return (value.surname + value.name).toLowerCase().includes(args.teacher.replaceAll(" ", "").toLowerCase());
+            });
+            for (const teacher of teachers) {
+                const valid = teacher.abbr === entry.abbr;
+                if (valid)
+                    return true;
+            }
             return false;
         });
         return this;

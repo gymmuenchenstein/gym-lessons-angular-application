@@ -47,9 +47,8 @@ export class CalendarDataBrokerService {
             this.http.get(path, {responseType: "text"}).subscribe(table => {
                 const data = this.csv(fields, /[,;|\t]/gsm, table) as RawTeacherDataEntry[];
                 for (const dat of data) {
-                    if (!this.uniques.abbrs.find(unique => { return unique === dat.abbr })) {
-                        this.uniques.abbrs.push(dat.abbr);
-                        this.uniques.teachers.push(dat.surname + " " + dat.name);
+                    if (!this.uniques.teachers.find(unique => { return unique.abbr === dat.abbr })) {
+                        this.uniques.teachers.push({surname: dat.surname, name: dat.name, abbr: dat.abbr});
                     }
                 }
                 resolve(data);
