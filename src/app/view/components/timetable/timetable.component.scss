@@ -1,44 +1,57 @@
-.timetable{
-    width: 100%;
-    height: 100%;
+.grid-container{
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    background-color: lightblue;
+    column-gap: 50px;
+    row-gap: 20px;
+    height: 100vh;
 }
-.days{
-    top: 0;
-    width: 20%;
-    display: inline-block;
+.grid-item{
+    text-align: center;
     position: relative;
-    height: 400px;
-
 }
 
 .lession{
-    position: relative;
-    display: inline;
+    position: absolute;
+    background-color: red;
+    border-radius: 5px;
+    height: 7%;
+    width: 100%;
 
-    width: 100%;
-    height: 100%;
-    background-color: darkgray;
-    border-radius: 2px;
-    border: 2px solid gray;
 }
-.lessions{
-    display: block;
-}
-.invis{
-    visibility: hidden;
-}
-._1,
-._2,
-._3,
-._4,
-._5{
-    position:   absolute;
+._1{
     top: 0%;
-    width: 100%;
-    height: 6%;
 }
-:is(._1, ._2, ._3):has(+ :is(._2, ._3, ._4)) {
+._2{
     top: 8%;
 }
-
-
+._3{
+    top: 16%;
+}
+._4{
+    top: 24%;
+}
+._5{
+    top: 32%;
+}
+._6{
+    top: 40%;
+}
+._7{
+    top: 48%;
+}
+._8{
+    top: 56%;
+}
+._9{
+    top: 64%;
+}
+._10{
+    top: 72%;
+}
+._11{
+    top: 80%;
+}
+._12{
+    top: 88%;
+}
