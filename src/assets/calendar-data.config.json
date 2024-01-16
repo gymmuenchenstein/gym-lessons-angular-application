@@ -1,0 +1,13 @@
+{
+    "dataPath": "data/",
+    "teachers": {
+        "file": "LP.csv",
+        "fields": ["surname", "name", "abbr"]
+    },
+    "entries": {
+        "files": [
+            "Semester 2.csv"
+        ],
+        "fields": ["abbr", "year", "month", "day", "index", "lesson", "class", "room", "", "", "", "time", "duration", ""]
+    }
+}
