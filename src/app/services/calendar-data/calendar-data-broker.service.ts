@@ -47,7 +47,9 @@ export class CalendarDataBrokerService {
             this.http.get(path, {responseType: "text"}).subscribe(table => {
                 const data = this.csv(fields, /[,;|\t]/gsm, table) as RawTeacherDataEntry[];
                 for (const dat of data) {
-                    if (!this.uniques.teachers.find(unique => { return unique.abbr === dat.abbr })) {
+                    if (!this.uniques.teachers.find(unique => {
+                        return unique.abbr === dat.abbr
+                    })) {
                         this.uniques.teachers.push({surname: dat.surname, name: dat.name, abbr: dat.abbr});
                     }
                 }
@@ -73,19 +75,36 @@ export class CalendarDataBrokerService {
             this.http.get(path, {responseType: "text"}).subscribe(table => {
                 const data = this.csv(fields, /[,;|\t]/gsm, table) as RawCalendarDataEntry[];
                 for (const dat of data) {
-                    if (!this.uniques.indices.find(unique => { return unique === dat.index })) {
-                        this.uniques.indices.push(dat.index);
+                    if (!Number.isNaN(Number(dat.index))) {
+                        if (!this.uniques.indices.find(unique => {
+                            return unique == dat.index
+                        })) {
+                            this.uniques.indices.push(Number(dat.index));
+                        }
                     }
-                    if (!this.uniques.rooms.find(unique => { return unique === dat.room })) {
-                        this.uniques.rooms.push(dat.room);
+                    if (dat.room.length > 0) {
+                        if (!this.uniques.rooms.find(unique => {
+                            return unique === dat.room
+                        })) {
+                            this.uniques.rooms.push(dat.room);
+                        }
                     }
-                    if (!this.uniques.lessons.find(unique => { return unique === dat.lesson })) {
-                        this.uniques.lessons.push(dat.lesson);
+                    if (dat.lesson.length > 0) {
+                        if (!this.uniques.lessons.find(unique => {
+                            return unique === dat.lesson
+                        })) {
+                            this.uniques.lessons.push(dat.lesson);
+                        }
                     }
-                    if (!this.uniques.classes.find(unique => { return unique === dat.class })) {
-                        this.uniques.classes.push(dat.class);
+                    if (dat.class.length > 0) {
+                        if (!this.uniques.classes.find(unique => {
+                            return unique === dat.class
+                        })) {
+                            this.uniques.classes.push(dat.class);
+                        }
                     }
                 }
+                this.uniques.complete();
                 resolve(data);
             });
         });
