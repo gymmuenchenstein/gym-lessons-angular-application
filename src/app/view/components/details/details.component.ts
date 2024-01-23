@@ -1,10 +1,13 @@
 import {Component, inject, TemplateRef} from '@angular/core';
 import {NgbOffcanvas} from "@ng-bootstrap/ng-bootstrap";
+import {FloorplanComponent} from "../floorplan-map/floorplan/floorplan.component";
 
 @Component({
   selector: 'app-details',
   standalone: true,
-  imports: [],
+    imports: [
+        FloorplanComponent
+    ],
   templateUrl: './details.component.html',
   styleUrl: './details.component.scss'
 })

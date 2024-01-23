@@ -40,8 +40,12 @@ export class FloorplanComponent implements AfterViewInit, OnChanges {
 
     private selectRoom(room: String) {
         for (const roomEl of this.roomEls) {
-            if (roomEl.nativeElement.id.endsWith(room))
+            const ruum = roomEl.nativeElement.id.split("-");
+            if (ruum[ruum.length - 1].slice(0, ruum[ruum.length - 1].length > 3 ? 2 : 1) == room.slice(0, room.length > 3 ? 2 : 1))
+                roomEl.nativeElement.style.opacity = "0.9";
+            if (ruum[ruum.length - 1] == room)
                 roomEl.nativeElement.style.fill = "red";
         }
     }
+
 }

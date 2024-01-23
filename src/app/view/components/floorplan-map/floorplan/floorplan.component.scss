@@ -5,21 +5,26 @@
 
 .room {
     fill: var(--bs-gray);
-    opacity: .9;
+    opacity: .2;
 
     transition: fill ease-in-out 0.2s;
 }
 
 .room:hover {
-    fill: var(--bs-success);
+    fill:   (rgb(255, 105, 105));
 }
 
 .room.selected {
-    fill: var(--bs-warning);
+    fill: (rgb(255,0,0));
 }
 
 .floor-edge {
     fill: transparent;
     stroke: transparent;
     pointer-events: none;
+}
+
+.svg, .root {
+    width: 150%;
+    height: 150%;
 }
