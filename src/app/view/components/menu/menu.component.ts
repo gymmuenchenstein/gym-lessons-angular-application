@@ -91,10 +91,44 @@ export class MenuComponent {
         label: "Klassen",
         nestedData: [{
             label: "Maturitätsklassen",
-            nestedData: [],
+            nestedData: [
+                {
+                    label: "1. Klassen",
+                    nestedData: [],
+                },
+                {
+                    label: "2. Klassen",
+                    nestedData: [],
+                },
+                {
+                    label: "3. Klassen",
+                    nestedData: [],
+                },
+                {
+                    label: "4. Klassen",
+                    nestedData: [],
+                }
+            ],
         }, {
-            label: "Fachmaturitätsklassen",
-            nestedData: [],
+            label: "FMS-Klassen",
+            nestedData: [
+                {
+                    label: "1. Klassen",
+                    nestedData: [],
+                },
+                {
+                    label: "2. Klassen",
+                    nestedData: [],
+                },
+                {
+                    label: "3. Klassen",
+                    nestedData: [],
+                },
+                {
+                    label: "Fachmaturitätsklassen",
+                    nestedData: [],
+                }
+            ],
         }, {
             label: "Andere",
             nestedData: [],
@@ -108,8 +142,79 @@ export class MenuComponent {
 
     roomData: AccordionData = {
         label: "Räume",
-        nestedData: []
+        nestedData: [
+            {
+                label: "Hauptgebäude",
+                nestedData: [
+                    {
+                        label: "3. Untergeschoss",
+                        nestedData: [],
+                    },
+                    {
+                        label: "1. Untergeschoss",
+                        nestedData: [],
+                    },
+                    {
+                        label: "1. Stock",
+                        nestedData: [],
+                    },
+                    {
+                        label: "2. Stock",
+                        nestedData: [],
+                    },
+                    {
+                        label: "4. Stock",
+                        nestedData: [],
+                    },
+                    {
+                        label: "5. Stock",
+                        nestedData: [],
+                    },
+                    {
+                        label: "6. Stock",
+                        nestedData: [],
+                    },
+                    {
+                        label: "7. Stock",
+                        nestedData: [],
+                    },
+                ],
+            },
+            {
+                label: "Pavillon",
+                nestedData: [
+                    {
+                        label: "Erdgeschoss",
+                        nestedData: [],
+                    },
+                    {
+                        label: "1. Stock",
+                        nestedData: [],
+                    },
+                ],
+            },
+            {
+                label: "Villa",
+                nestedData: [],
+            },
+            {
+                label: "Sportanlagen",
+                nestedData: [
+                    {
+                        label: "Turnhalle",
+                        nestedData: [],
+                    },
+                    {
+                        label: "KuSpo",
+                        nestedData: [],
+                    },
+                ],
+            }
+        ]
     };
+
+    searchList: { label: string, action: () => void }[] = [];
+
 
     constructor(private broker: CalendarDataBrokerService) {
 
@@ -138,8 +243,18 @@ export class MenuComponent {
             }
         });
 
-        this.classData.nestedData![0].nestedData = allNestedData.filter((s) => s.label.startsWith("M"));
-        this.classData.nestedData![1].nestedData = allNestedData.filter((s) => s.label.startsWith("F"));
+        this.searchList = this.searchList.concat(allNestedData);
+
+        this.classData.nestedData![0].nestedData![0].nestedData = allNestedData.filter((s) => s.label.startsWith("M1"));
+        this.classData.nestedData![0].nestedData![1].nestedData = allNestedData.filter((s) => s.label.startsWith("M2"));
+        this.classData.nestedData![0].nestedData![2].nestedData = allNestedData.filter((s) => s.label.startsWith("M3"));
+        this.classData.nestedData![0].nestedData![3].nestedData = allNestedData.filter((s) => s.label.startsWith("M4"));
+
+        this.classData.nestedData![1].nestedData![0].nestedData = allNestedData.filter((s) => s.label.startsWith("F1"));
+        this.classData.nestedData![1].nestedData![1].nestedData = allNestedData.filter((s) => s.label.startsWith("F2"));
+        this.classData.nestedData![1].nestedData![2].nestedData = allNestedData.filter((s) => s.label.startsWith("F3"));
+        this.classData.nestedData![1].nestedData![3].nestedData = allNestedData.filter((s) => s.label.startsWith("FM"));
+
         this.classData.nestedData![2].nestedData = allNestedData.filter((s) => !s.label.startsWith("M") && !s.label.startsWith("F"));
 
     }
@@ -147,24 +262,46 @@ export class MenuComponent {
     private getTeacherData(): void {
 
         const teachers = this.broker.unique().teachers;
-        this.teacherData.nestedData = teachers.map((teacher) => {
+        const nestedData = teachers.map((teacher) => {
             return {
                 label: teacher.surname + ", " + teacher.name + " (" + teacher.abbr + ")",
                 action: () => this.openTimetable(teacher),
             }
         });
+        this.teacherData.nestedData = nestedData;
+
+        this.searchList = this.searchList.concat(nestedData);
 
     }
 
     private getRoomData(): void {
 
         const rooms = this.broker.unique().rooms.filter(r => r).sort();
-        this.roomData.nestedData = rooms.map((room) => {
+        const nestedData = rooms.map((room) => {
             return {
                 label: room,
                 action: () => this.openTimetable(room),
             }
         });
+
+        this.searchList = this.searchList.concat(nestedData);
+
+        this.roomData.nestedData![0].nestedData![0].nestedData = nestedData.filter((s) => s.label.startsWith("U3"));
+        this.roomData.nestedData![0].nestedData![1].nestedData = nestedData.filter((s) => s.label.startsWith("U1") || s.label.startsWith("AU"));
+        this.roomData.nestedData![0].nestedData![2].nestedData = nestedData.filter((s) => s.label.startsWith("1"));
+        this.roomData.nestedData![0].nestedData![3].nestedData = nestedData.filter((s) => s.label.startsWith("2"));
+        this.roomData.nestedData![0].nestedData![4].nestedData = nestedData.filter((s) => s.label.startsWith("4"));
+        this.roomData.nestedData![0].nestedData![5].nestedData = nestedData.filter((s) => s.label.startsWith("5"));
+        this.roomData.nestedData![0].nestedData![6].nestedData = nestedData.filter((s) => s.label.startsWith("6"));
+        this.roomData.nestedData![0].nestedData![7].nestedData = nestedData.filter((s) => s.label.startsWith("7"));
+
+        this.roomData.nestedData![1].nestedData![0].nestedData = nestedData.filter((s) => s.label.startsWith("P0"));
+        this.roomData.nestedData![1].nestedData![1].nestedData = nestedData.filter((s) => s.label.startsWith("P1"));
+
+        this.roomData.nestedData![2].nestedData = nestedData.filter((s) => s.label.startsWith("V"));
+
+        this.roomData.nestedData![3].nestedData![0].nestedData = nestedData.filter((s) => s.label.startsWith("T"));
+        this.roomData.nestedData![3].nestedData![1].nestedData = nestedData.filter((s) => s.label.startsWith("K"));
 
     }
 
