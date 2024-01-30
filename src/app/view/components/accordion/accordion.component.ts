@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {JsonPipe, NgClass, NgIf} from "@angular/common";
+import {JsonPipe, NgClass, NgIf, NgStyle} from "@angular/common";
 
 export type AccordionData = { label: string, action?: () => void, nestedData?: AccordionData[] };
 
@@ -9,7 +9,8 @@ export type AccordionData = { label: string, action?: () => void, nestedData?: A
     imports: [
         NgIf,
         JsonPipe,
-        NgClass
+        NgClass,
+        NgStyle
     ],
     templateUrl: './accordion.component.html',
     styleUrl: './accordion.component.scss'
@@ -22,6 +23,8 @@ export class AccordionComponent {
 
     @Input() last: boolean = false;
 
+    @Input() recursionLevel: number = 0;
+
     protected showNestedData: boolean = false;
 
     protected hasMoreNestedData(data: AccordionData): boolean {
@@ -29,6 +32,11 @@ export class AccordionComponent {
             return true;
         }
         return false;
+    }
+
+    calculateColor(): string {
+        const brightness = 0.1 * Math.exp(-this.recursionLevel);
+        return "rgba(0, 0, 0, " + brightness + ")";
     }
 
 }
