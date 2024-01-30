@@ -1,23 +1,22 @@
-<p>A typeahead example that uses a formatter function for string results</p>
+<div class="p-3">
 
-<label for="typeahead-format">Suche einen Stundenplan:</label>
-<input
-    id="typeahead-format"
-    type="text"
-    class="form-control"
-    [(ngModel)]="model"
-    [ngbTypeahead]="search"
-    [resultFormatter]="formatter"
-/>
+    <div class="mb-3">
+        <input
+            id="typeahead-format"
+            type="text"
+            class="form-control"
+            placeholder="Suche..."
+            [(ngModel)]="model"
+            [ngbTypeahead]="search"
+            [resultFormatter]="formatter"
+            [inputFormatter]="formatter"
+        />
+    </div>
 
-<hr/>
+    <app-accordion [data]="classData"></app-accordion>
 
-<pre>Model: {{ model | json }}</pre>
+    <app-accordion [data]="teacherData"></app-accordion>
 
-<hr>
+    <app-accordion [data]="roomData"></app-accordion>
 
-<app-accordion [data]="classData"></app-accordion>
-
-<app-accordion [data]="teacherData"></app-accordion>
-
-<app-accordion [data]="roomData"></app-accordion>
+</div>

@@ -309,14 +309,14 @@ export class MenuComponent {
         console.log(data);
     }
 
-    formatter = (result: string) => result.toUpperCase();
+    formatter = (result: {label: string, action: () => void }) => result.label;
 
-    search: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
+    search = (text$: Observable<string>) =>
         text$.pipe(
             debounceTime(200),
             distinctUntilChanged(),
             map((term) =>
-                term === '' ? [] : states.filter((v) => v.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10),
+                term === '' ? [] : this.searchList.filter((v) => v.label.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10),
             ),
         );
 }
