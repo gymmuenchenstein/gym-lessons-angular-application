@@ -6,6 +6,7 @@ import {CalendarDataQuery} from "./calendar-data-query";
 import {RawTeacherDataEntry} from "./data-entries/raw-teacher-data-entry";
 import {CalendarDataUniques} from "./data-entries/calendar-data-uniques";
 import {CalendarFilterService} from "../calendar-filter/calendar-filter.service";
+import {CalendarDataEntry} from "./data-entries/calendar-data-entry";
 
 @Injectable({
     providedIn: 'root'
@@ -16,6 +17,8 @@ export class CalendarDataBrokerService {
     private teachers: RawTeacherDataEntry[] = [];
     private raw: RawCalendarDataEntry[] = [];
     private uniques: CalendarDataUniques = new CalendarDataUniques();
+
+    private selectedEntry: CalendarDataEntry | undefined
 
     /**
      * Emitted when the service has received and parsed the calendar data
@@ -130,11 +133,10 @@ export class CalendarDataBrokerService {
      * @return CalendarDataQuery used for querying calendar data
      */
     query(useFilter: boolean = true) {
-        const query = new CalendarDataQuery(this.raw, this.teachers);
+        let query = new CalendarDataQuery(this.raw, this.teachers);
         if (useFilter)
-            return this.filter.filter(query);
-        else
-            return query;
+            query = this.filter.filter(query);
+        return query;
     }
 
     /**
@@ -142,5 +144,13 @@ export class CalendarDataBrokerService {
      */
     unique() {
         return this.uniques;
+    }
+
+    getSelectEntry(entry: CalendarDataEntry) {
+        this.selectedEntry = entry
+    }
+
+    setSelectEntry(entry: CalendarDataEntry) {
+        this.selectedEntry = entry
     }
 }
