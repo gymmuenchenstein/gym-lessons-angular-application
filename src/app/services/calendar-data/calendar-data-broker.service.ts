@@ -146,8 +146,8 @@ export class CalendarDataBrokerService {
         return this.uniques;
     }
 
-    getSelectEntry(entry: CalendarDataEntry) {
-        this.selectedEntry = entry
+    getSelectEntry() {
+        return this.selectedEntry
     }
 
     setSelectEntry(entry: CalendarDataEntry) {

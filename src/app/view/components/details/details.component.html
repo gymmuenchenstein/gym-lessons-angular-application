@@ -1,15 +1,15 @@
 <p>details works!</p>
 <ng-template #content let-offcanvas>
-    <div class="offcanvas-header">
+    <div class="offcanvas-header noscroll">
         <h4 class="offcanvas-title">Chemie</h4>
         <button type="button" class="btn-close" aria-label="Close" (click)="offcanvas.dismiss('Cross click')"></button>
     </div>
-    <div class="offcanvas-body">
-        <p> Zimmer: 708<br>
-            Zeit: 8:00-8:45<br>
-            Lehrpersonen: Max Mustermänner<br>
-            Klassen: M1b<br>
-<app-floorplan [selectedRoom]="'123'" [style.width]="'100px'" [style.position]="'relative'" [style.left]="'-150px'"></app-floorplan>
+    <div class="offcanvas-body noscroll">
+        <p> Zimmer: {{this.broker.getSelectEntry()?.room}}<br>
+            Zeit: {{this.time}}<br>
+            Lehrpersonen: {{this.entry.teachers.join(", ")}}<br>
+            Klassen: {{this.entry.classes.join(", ")}}<br>
+<app-floorplan [selectedRoom]="this.room" [style.width]="'100px'" [style.position]="'relative'" [style.left]="'-135px'"></app-floorplan>
         </p>
     </div>
 </ng-template>
