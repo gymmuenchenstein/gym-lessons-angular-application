@@ -1,0 +1,48 @@
+.item-with-children {
+    cursor: pointer;
+    border: 1px solid #CCC;
+    border-radius: 0.25rem;
+    padding: 0.5rem 1rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+
+    div {
+        flex-grow: 1;
+    }
+
+    i {
+
+    }
+
+    &:hover {
+        background-color: #DDD;
+    }
+}
+
+.item-without-children {
+    cursor: pointer;
+    border-top: 1px solid #CCC;
+    border-left: 1px solid #CCC;
+    border-right: 1px solid #CCC;
+    padding: 0.5rem 1rem;
+
+    &.first {
+        border-top-left-radius: 0.25rem;
+        border-top-right-radius: 0.25rem;
+    }
+
+    &.last {
+        border-bottom-left-radius: 0.25rem;
+        border-bottom-right-radius: 0.25rem;
+        margin-bottom: 0.5rem;
+        border-bottom: 1px solid #CCC;
+    }
+
+    &:hover {
+        background-color: #EEE;
+    }
+}
+
+.nested-items {
+    margin: 0 1rem;
+}
