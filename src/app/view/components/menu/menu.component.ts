@@ -11,69 +11,7 @@ import {CommonModule, JsonPipe, NgForOf} from "@angular/common";
 import {debounceTime, distinctUntilChanged, map, Observable, OperatorFunction} from "rxjs";
 import {CalendarDataBrokerService} from "../../../services/calendar-data/calendar-data-broker.service";
 import {AccordionComponent, AccordionData} from "../accordion/accordion.component";
-
-const states = [
-    'Alabama',
-    'Alaska',
-    'American Samoa',
-    'Arizona',
-    'Arkansas',
-    'California',
-    'Colorado',
-    'Connecticut',
-    'Delaware',
-    'District Of Columbia',
-    'Federated States Of Micronesia',
-    'Florida',
-    'Georgia',
-    'Guam',
-    'Hawaii',
-    'Idaho',
-    'Illinois',
-    'Indiana',
-    'Iowa',
-    'Kansas',
-    'Kentucky',
-    'Louisiana',
-    'Maine',
-    'Marshall Islands',
-    'Maryland',
-    'Massachusetts',
-    'Michigan',
-    'Minnesota',
-    'Mississippi',
-    'Missouri',
-    'Montana',
-    'Nebraska',
-    'Nevada',
-    'New Hampshire',
-    'New Jersey',
-    'New Mexico',
-    'New York',
-    'North Carolina',
-    'North Dakota',
-    'Northern Mariana Islands',
-    'Ohio',
-    'Oklahoma',
-    'Oregon',
-    'Palau',
-    'Pennsylvania',
-    'Puerto Rico',
-    'Rhode Island',
-    'South Carolina',
-    'South Dakota',
-    'Tennessee',
-    'Texas',
-    'Utah',
-    'Vermont',
-    'Virgin Islands',
-    'Virginia',
-    'Washington',
-    'West Virginia',
-    'Wisconsin',
-    'Wyoming',
-];
-
+import {MenuService} from "../../../model/services/menu.service";
 
 @Component({
     selector: 'app-menu',
@@ -216,7 +154,8 @@ export class MenuComponent {
     searchList: { label: string, action: () => void }[] = [];
 
 
-    constructor(private broker: CalendarDataBrokerService) {
+    constructor(private broker: CalendarDataBrokerService,
+                protected menuService: MenuService) {
 
         this.broker.onInitialized.subscribe(() => {
 
