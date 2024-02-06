@@ -1,8 +1,10 @@
-import {Component} from '@angular/core';
+import {Component, inject, TemplateRef} from '@angular/core';
 import {NgForOf} from "@angular/common";
 import {CalendarDataBrokerService} from "../../../services/calendar-data/calendar-data-broker.service";
 import {CalendarDataEntry} from "../../../services/calendar-data/data-entries/calendar-data-entry";
 import {elementAt} from "rxjs";
+import {NgbOffcanvas} from "@ng-bootstrap/ng-bootstrap";
+import {DetailsComponent} from "../details/details.component";
 
 // @ts-ignore
 @Component({
@@ -20,8 +22,12 @@ export class TimetableComponent {
     protected lessonindices = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
     protected days: number[] = [1,2,3,4,5];
 
+    private offcanvasService = inject(NgbOffcanvas);
 
-    constructor(private broker: CalendarDataBrokerService) {
+    openEnd() {
+        this.offcanvasService.open(DetailsComponent, { position: 'end' });
+    }
+    constructor(protected broker: CalendarDataBrokerService) {
         this.broker.onInitialized.subscribe(() => {
                 const data = this.broker.query()
                     .week({year: 2024, month: 5, day: 13})
