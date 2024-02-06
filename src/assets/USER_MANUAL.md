@@ -4,7 +4,7 @@
 ```json
 ...
 "files": [
-"an-example-file.csv"
+  "an-example-file.csv"
 ]
 ...
 ```

@@ -7,7 +7,7 @@ import {CalendarDataQuery} from "../calendar-data/calendar-data-query";
 export class CalendarFilterService {
 
     private currentFilterSequence: {[key: string]: any} = {}
-
+    
     day(args: { year: number, month: number, day: number }) {
         this.currentFilterSequence['day'] = args;
         return this;

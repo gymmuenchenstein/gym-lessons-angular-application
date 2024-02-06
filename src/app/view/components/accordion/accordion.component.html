@@ -1,0 +1,36 @@
+@if (data) {
+
+    @if (data.nestedData?.length) {
+
+        <div (click)="showNestedData = !showNestedData" class="item-with-children"
+            [ngStyle]="{'background-color': calculateColor()}">
+            <div>{{ data.label }}</div>
+            @if (showNestedData) {
+                <i class="bi bi-chevron-up"></i>
+            } @else {
+                <i class="bi bi-chevron-down"></i>
+            }
+        </div>
+
+    } @else {
+
+        <div (click)="data.action && data.action()" class="item-without-children"
+             [ngClass]="(first ? 'first' : '') + ' ' + (last ? 'last' : '')">
+            {{ data.label }}
+        </div>
+
+    }
+
+    @if (showNestedData && data.nestedData) {
+        @for (d of data.nestedData; track d; let i = $index) {
+            <div [ngClass]="'nested-items'">
+                <app-accordion [data]="d"
+                               [first]="i === 0"
+                               [last]="i === data.nestedData.length - 1"
+                               [recursionLevel]="recursionLevel + 1"></app-accordion>
+            </div>
+        }
+    }
+
+}
+

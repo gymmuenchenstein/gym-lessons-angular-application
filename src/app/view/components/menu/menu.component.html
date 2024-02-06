@@ -1,160 +1,22 @@
-<p>A typeahead example that uses a formatter function for string results</p>
+<div class="menu" [ngClass]="menuService.isAlwaysVisible ? '' : 'd-none d-lg-block'">
 
-<label for="typeahead-format">Suche einen Stundenplan:</label>
-<input
-    id="typeahead-format"
-    type="text"
-    class="form-control"
-    [(ngModel)]="model"
-    [ngbTypeahead]="search"
-    [resultFormatter]="formatter"
-/>
-
-<hr />
-<pre>Model: {{ model | json }}</pre>
-<div ngbAccordion>
-    <div ngbAccordionItem>
-        <h2 ngbAccordionHeader>
-            <button ngbAccordionButton>Klassen</button>
-        </h2>
-        <div ngbAccordionCollapse>
-            <div ngbAccordionBody>
-                <div ngbAccordion>
-                    <div ngbAccordionItem>
-                        <h2 ngbAccordionHeader>
-                            <button ngbAccordionButton>Maturitaet</button>
-                        </h2>
-                        <div ngbAccordionCollapse>
-                            <div ngbAccordionBody>
-                                <div ngbAccordion>
-                                    <div ngbAccordionItem>
-                                        <h2 ngbAccordionHeader>
-                                            <button ngbAccordionButton>1. Klassen</button>
-                                        </h2>
-                                        <div ngbAccordionCollapse>
-                                            <div ngbAccordionBody>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div ngbAccordion>
-                                    <div ngbAccordionItem>
-                                        <h2 ngbAccordionHeader>
-                                            <button ngbAccordionButton>2. Klassen</button>
-                                        </h2>
-                                        <div ngbAccordionCollapse>
-                                            <div ngbAccordionBody>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div ngbAccordion>
-                                    <div ngbAccordionItem>
-                                        <h2 ngbAccordionHeader>
-                                            <button ngbAccordionButton>3. Klassen</button>
-                                        </h2>
-                                        <div ngbAccordionCollapse>
-                                            <div ngbAccordionBody>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div ngbAccordion>
-                                    <div ngbAccordionItem>
-                                        <h2 ngbAccordionHeader>
-                                            <button ngbAccordionButton>4. Klassen</button>
-                                        </h2>
-                                        <div ngbAccordionCollapse>
-                                            <div ngbAccordionBody>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div ngbAccordion>
-                    <div ngbAccordionItem>
-                        <h2 ngbAccordionHeader>
-                            <button ngbAccordionButton>Fachmaturitaet</button>
-                        </h2>
-                        <div ngbAccordionCollapse>
-                            <div ngbAccordionBody>
-                                <div ngbAccordion>
-                                    <div ngbAccordionItem>
-                                        <h2 ngbAccordionHeader>
-                                            <button ngbAccordionButton>1. Klassen</button>
-                                        </h2>
-                                        <div ngbAccordionCollapse>
-                                            <div ngbAccordionBody>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div ngbAccordion>
-                                    <div ngbAccordionItem>
-                                        <h2 ngbAccordionHeader>
-                                            <button ngbAccordionButton>2. Klassen</button>
-                                        </h2>
-                                        <div ngbAccordionCollapse>
-                                            <div ngbAccordionBody>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div ngbAccordion>
-                                    <div ngbAccordionItem>
-                                        <h2 ngbAccordionHeader>
-                                            <button ngbAccordionButton>3. Klassen</button>
-                                        </h2>
-                                        <div ngbAccordionCollapse>
-                                            <div ngbAccordionBody>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div ngbAccordion>
-                    <div ngbAccordionItem>
-                        <h2 ngbAccordionHeader>
-                            <button ngbAccordionButton>Andere</button>
-                        </h2>
-                        <div ngbAccordionCollapse>
-                            <div ngbAccordionBody>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="mb-3">
+        <input
+            id="typeahead-format"
+            type="text"
+            class="form-control"
+            placeholder="Suche..."
+            [(ngModel)]="model"
+            [ngbTypeahead]="search"
+            [resultFormatter]="formatter"
+            [inputFormatter]="formatter"
+        />
     </div>
-</div>
-<div ngbAccordion>
-    <div ngbAccordionItem>
-        <h2 ngbAccordionHeader>
-            <button ngbAccordionButton>Lehrpersonen</button>
-        </h2>
-        <div ngbAccordionCollapse>
-            <div ngbAccordionBody>
 
-            </div>
-        </div>
-    </div>
-</div>
-<div ngbAccordion>
-    <div ngbAccordionItem>
-        <h2 ngbAccordionHeader>
-            <button ngbAccordionButton>Raeume</button>
-        </h2>
-        <div ngbAccordionCollapse>
-            <div ngbAccordionBody>
+    <app-accordion [data]="classData"></app-accordion>
 
-            </div>
-        </div>
-    </div>
+    <app-accordion [data]="teacherData"></app-accordion>
+
+    <app-accordion [data]="roomData"></app-accordion>
+
 </div>

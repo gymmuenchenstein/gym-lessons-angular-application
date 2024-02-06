@@ -1,0 +1,25 @@
+.root {
+    width: 100px;
+    fill: transparent;
+}
+
+.room {
+    fill: var(--bs-gray);
+    opacity: .9;
+
+    transition: fill ease-in-out 0.2s;
+}
+
+.room:hover {
+    fill: var(--bs-success);
+}
+
+.room.selected {
+    fill: var(--bs-warning);
+}
+
+.floor-edge {
+    fill: transparent;
+    stroke: transparent;
+    pointer-events: none;
+}
