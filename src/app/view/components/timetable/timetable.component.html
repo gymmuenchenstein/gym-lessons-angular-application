@@ -1,12 +1,14 @@
 
-<div class="grid-container">
-    <div class="grid-item">
-        <div class="_1 lession">1</div>
-        <div class="_2 lession">1</div>
-        <div class="_3 lession">1</div>
-        <div class="_4 lession">1</div>
+<div class=" window">
+    <div class=" day" *ngFor="let day of days" >
+        <div class="index indexlesson{{i}}" *ngFor="let i of lessonindices">
+            <div class="subindex row">
+                <div class="lesson col" *ngFor="let lesson of getdatabylessenindex(i, day)">
+                    <span class="span {{lesson.lesson}}" >{{lesson.lesson}} </span>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <div class="grid-item">2</div>
-    <div class="grid-item">3</div>
 </div>
+
+
