@@ -5,7 +5,7 @@
 
 .window {
   display: flex;
-  //grid-template-columns: repeat(5, 20%);
+  min-width: 680px;
 }
 
 .day {
