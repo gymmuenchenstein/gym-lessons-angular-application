@@ -1,13 +1,13 @@
-    <div class="offcanvas-header">
-        <h4 class="offcanvas-title">Chemie</h4>
-        <button type="button" class="btn-close" aria-label="Close" (click)="offcanvasService.dismiss('Cross click')"></button>
-    </div>
-    <div class="offcanvas-body">
-        <p> Zimmer: {{entry?.room}}<br>
-            Zeit: {{time}}<br>
-            Lehrpersonen: {{teachers}}<br>
-            Klassen: {{classes}}<br>
-
-        </p>
-    </div>
-
+<div class="offcanvas-header">
+    <h4 class="offcanvas-title">{{entry?.lesson}}</h4>
+    <button type="button" class="btn-close" aria-label="Close"
+            (click)="offcanvasService.dismiss('Cross click')"></button>
+</div>
+<div class="offcanvas-body noscroll">
+    <p> Zimmer: {{entry?.room}}<br>
+        Zeit: {{time}}<br>
+        Lehrpersonen: {{teachers}}<br>
+        Klassen: {{classes}}<br>
+    </p>
+</div>
+<app-floorplan class="floorplan"></app-floorplan>
