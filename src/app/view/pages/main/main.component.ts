@@ -4,6 +4,7 @@ import { NavbarComponent } from "../../components/navbar/navbar.component";
 import { MenuComponent } from "../../components/menu/menu.component";
 import { DetailsComponent } from "../../components/details/details.component";
 import { FooterComponent } from "../../components/footer/footer.component";
+import {NgClass} from "@angular/common";
 
 @Component({
   selector: 'app-main',
@@ -13,7 +14,8 @@ import { FooterComponent } from "../../components/footer/footer.component";
         NavbarComponent,
         MenuComponent,
         DetailsComponent,
-        FooterComponent
+        FooterComponent,
+        NgClass
     ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss'

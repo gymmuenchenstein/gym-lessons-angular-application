@@ -1,14 +1,14 @@
-<app-navbar></app-navbar>
+<app-navbar [style.z-index]="100" class="box-shadow"></app-navbar>
 
-<div class="container-fluid d-flex flex-column">
+<div class="container-fluid d-flex flex-column fullheight">
     <div class="row flex-grow-1">
-        <div class="col-12 col-lg-4 bg-light p-3">
-            <app-menu></app-menu>
+        <div class="col-12 col-lg-4 bg-light p-3 box-shadow no-margin" [style.z-index]="50">
+            <app-menu class="fullheight"></app-menu>
         </div>
-        <div class="col-12 col-lg-8 bg-white p-3">
+        <div class="col-12 col-lg-8 bg-white p-3" [style.z-index]="30">
             <app-timetable></app-timetable>
         </div>
     </div>
 </div>
 
-<app-footer></app-footer>
+<app-footer class="box-shadow"></app-footer>

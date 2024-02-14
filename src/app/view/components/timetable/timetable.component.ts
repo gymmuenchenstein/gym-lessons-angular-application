@@ -27,6 +27,7 @@ export class TimetableComponent {
     openEnd() {
         this.offcanvasService.open(DetailsComponent, { position: 'end' });
     }
+
     constructor(protected broker: CalendarDataBrokerService) {
         this.broker.onInitialized.subscribe(() => {
                 const data = this.broker.query()

@@ -3,7 +3,7 @@
     <div class=" day" *ngFor="let day of days" >
         <div class="index indexlesson{{i}}" *ngFor="let i of lessonindices">
             <div class="subindex row">
-                <div class="lesson col" *ngFor="let lesson of getdatabylessenindex(i, day)" (click)="broker.setSelectEntry(lesson);openEnd()">
+                <div class="lesson col btn btn-light box-shadow" *ngFor="let lesson of getdatabylessenindex(i, day)" (click)="broker.setSelectEntry(lesson);openEnd()">
                     <span class="span {{lesson.lesson}}" >{{lesson.lesson}} </span>
                 </div>
             </div>
