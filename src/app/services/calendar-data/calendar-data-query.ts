@@ -39,13 +39,10 @@ export class CalendarDataQuery {
         const rootDate = dayjs(args);
         const startDate = rootDate.subtract({days: rootDate.day()-1 });
         const endDate = startDate.add(dayjs.duration({days: 6}));
-        console.log(startDate,endDate)
 
         this.raw = this.raw.filter((entry) => {
             const entrydate=dayjs({year:entry.year,month:entry.month-1,date:entry.day,hour:12});
             return entrydate.isAfter(startDate) && entrydate.isBefore(endDate);
-            return (entry.day >= startDate.date() && entry.month >= startDate.month() && entry.year >= startDate.year()) &&
-                (entry.day <= endDate.date() && entry.month <= endDate.month() && entry.year <= endDate.year())
         });
         return this;
     }
