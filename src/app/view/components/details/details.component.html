@@ -3,10 +3,10 @@
         <button type="button" class="btn-close" aria-label="Close" (click)="offcanvasService.dismiss('Cross click')"></button>
     </div>
     <div class="offcanvas-body">
-        <p> Zimmer: 708<br>
-            Zeit: 8:00-8:45<br>
-            Lehrpersonen: Max Mustermänner<br>
-            Klassen: M1b<br>
+        <p> Zimmer: {{entry?.room}}<br>
+            Zeit: {{time}}<br>
+            Lehrpersonen: {{teachers}}<br>
+            Klassen: {{classes}}<br>
 
         </p>
     </div>
