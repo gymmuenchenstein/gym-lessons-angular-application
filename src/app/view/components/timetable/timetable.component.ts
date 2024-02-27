@@ -1,5 +1,5 @@
 import {Component, inject, TemplateRef} from '@angular/core';
-import {NgForOf} from "@angular/common";
+import {NgClass, NgForOf} from "@angular/common";
 import {CalendarDataBrokerService} from "../../../services/calendar-data/calendar-data-broker.service";
 import {CalendarDataEntry} from "../../../services/calendar-data/data-entries/calendar-data-entry";
 import {NgbOffcanvas} from "@ng-bootstrap/ng-bootstrap";
@@ -11,7 +11,8 @@ import {CalendarFilterService} from "../../../services/calendar-filter/calendar-
     selector: 'app-timetable',
     standalone: true,
     imports: [
-        NgForOf
+        NgForOf,
+        NgClass
     ],
     templateUrl: './timetable.component.html',
     styleUrl: './timetable.component.scss'
@@ -20,7 +21,7 @@ import {CalendarFilterService} from "../../../services/calendar-filter/calendar-
 export class TimetableComponent {
     protected data: CalendarDataEntry[] = [];
     protected lessonindices = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-    protected lessontimes = [ "8:00", "8:55", "10:00", "10:55", "11:50", "12:45", "13:40", "14:35", "15:30", "16:25", "17:20" ]
+    protected lessontimes = [ "8:00", "8:55", "10:00", "10:55", "11:50", "12:45", "13:40", "14:35", "15:30", "16:25", "17:20", "18:05" ]
     protected weekdays = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" ]
     protected days: number[] = [1, 2, 3, 4, 5];
 
