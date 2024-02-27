@@ -133,9 +133,7 @@ export class CalendarDataBrokerService {
      * @return CalendarDataQuery used for querying calendar data
      */
     query(useFilter: boolean = true) {
-        let query = new CalendarDataQuery(this.raw, this.teachers);
-        if (useFilter)
-            query = this.filter.filter(query);
+        let query = new CalendarDataQuery(this.raw, this.teachers, useFilter, this.filter);
         return query;
     }
 
@@ -151,6 +149,6 @@ export class CalendarDataBrokerService {
     }
 
     setSelectEntry(entry: CalendarDataEntry) {
-        this.selectedEntry = entry
+        this.selectedEntry = entry;
     }
 }
