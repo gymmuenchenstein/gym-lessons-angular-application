@@ -20,6 +20,7 @@ export class DetailsComponent implements AfterViewInit {
     time: string = "";
     teachers: string = "";
     classes: string = "";
+    room: string = "";
 
     constructor(private broker: CalendarDataBrokerService) {
         /*this.broker.onInitialized.subscribe(() => {
@@ -40,5 +41,7 @@ export class DetailsComponent implements AfterViewInit {
         this.classes = "" + this.entry?.classes.map(el => {
             return el.full;
         }).join(", ");
+        if (this.entry?.room != undefined)
+            this.room = this.entry?.room;
     }
 }
