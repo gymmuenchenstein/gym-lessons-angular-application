@@ -37,8 +37,8 @@ export class AccordionComponent {
     }
 
     calculateColor(): string {
-        const brightness = 0.1 * Math.exp(-this.recursionLevel);
-        return "rgba(0, 0, 0, " + brightness + ")";
+        const brightness = (1 - 0.1 * Math.exp(-this.recursionLevel)) * 255;
+        return `rgb(${brightness}, ${brightness}, ${brightness})`;
     }
 
 }
