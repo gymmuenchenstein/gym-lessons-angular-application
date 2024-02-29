@@ -1,0 +1,5 @@
+<div class="offcanvas-header">
+    <button type="button" class="btn-close" aria-label="Close"
+            (click)="offcanvasService.dismiss('Cross click')"></button>
+</div>
+<div class="lesson btn btn-light box-shadow" *ngFor="let lesson of lessons" (click)="broker.setSelectEntry(lesson);offcanvasService.dismiss('Opened lesson');offcanvasService.open(DetailsComponent, {position: 'end'});">{{lesson.lesson}}</div>
