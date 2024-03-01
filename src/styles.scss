@@ -6,6 +6,8 @@
 /* Importing Bootstrap Icons */
 @import "bootstrap-icons/font/bootstrap-icons.css";
 
+$accent-color: #cacb45;
+
 * {
     scrollbar-width: thin;
 }
@@ -13,6 +15,7 @@
 body {
     position: relative;
     height: 100vh;
+    --accent-color: #{$accent-color};
 }
 
 .fullheight {

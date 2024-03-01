@@ -10,6 +10,8 @@
             [ngbTypeahead]="search"
             [resultFormatter]="formatter"
             [inputFormatter]="formatter"
+            [editable]="false"
+            (ngModelChange)="updateTimetable($event)"
         />
     </div>
 

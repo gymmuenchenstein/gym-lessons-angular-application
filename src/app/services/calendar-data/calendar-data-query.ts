@@ -88,12 +88,23 @@ export class CalendarDataQuery {
     }
 
     /**
-     * Filters all calendar entries by the condition of similarity to the teachers abbreviation
+     * Filters all calendar entries by the lesson name
      * @param args lesson
      */
     lesson(args: { lesson: string }) {
         this.raw = this.raw.filter((entry) => {
             return entry.lesson.toLowerCase().includes(args.lesson.toLowerCase());
+        });
+        return this;
+    }
+
+    /**
+     * Filters all calendar entries by room
+     * @param args room
+     */
+    room(args: { room: string }) {
+        this.raw = this.raw.filter((entry) => {
+            return entry.room.toLowerCase().includes(args.room.toLowerCase());
         });
         return this;
     }

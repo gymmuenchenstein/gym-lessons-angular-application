@@ -29,6 +29,7 @@ export class AccordionComponent {
 
     protected showNestedData: boolean = false;
 
+
     protected hasMoreNestedData(data: AccordionData): boolean {
         if (data.nestedData?.length) {
             return true;

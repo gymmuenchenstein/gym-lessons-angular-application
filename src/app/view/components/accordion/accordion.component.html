@@ -17,7 +17,9 @@
         <div (click)="data.action && data.action()"
              class="item-without-children text-truncate"
              [ngbTooltip]="data.label"
-             [ngClass]="(first ? 'first' : '') + ' ' + (last ? 'last' : '')">
+             [ngClass]="(first ? 'first' : '') + ' ' + (last ? 'last' : '')"
+             [style.background-color]="'var(--accent-color)'"
+             [style.border-color]="'#707070'">
             {{ data.label }}
         </div>
 

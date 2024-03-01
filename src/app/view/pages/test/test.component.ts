@@ -16,9 +16,9 @@ export class TestComponent {
 
     constructor(private broker: CalendarDataBrokerService, private filter: CalendarFilterService) {
         this.broker.onInitialized.subscribe(() => {
-            console.log(this.broker.unique());
-            this.filter.day({year:2024, month:1, day:23}).teacher({teacher: "Steiner Janik"});
-            console.log(this.broker.query().export());
+            //console.log(this.broker.unique());
+            const x = this.broker.query().day({year:2024, month:5, day:15}).abbr({abbr: "Gt"}).export();
+            //console.log(x);
         })
     }
 

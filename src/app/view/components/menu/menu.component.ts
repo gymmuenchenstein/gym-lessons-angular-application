@@ -1,17 +1,15 @@
-import {Component} from '@angular/core';
+import {Component, OnChanges, SimpleChanges} from '@angular/core';
 import {
-    NgbAccordionBody,
-    NgbAccordionButton, NgbAccordionCollapse,
-    NgbAccordionDirective,
-    NgbAccordionHeader,
-    NgbAccordionItem, NgbModule
+    NgbModule
 } from "@ng-bootstrap/ng-bootstrap";
 import {FormsModule} from "@angular/forms";
-import {CommonModule, JsonPipe, NgForOf} from "@angular/common";
-import {debounceTime, distinctUntilChanged, map, Observable, OperatorFunction} from "rxjs";
+import {CommonModule, JsonPipe} from "@angular/common";
+import {debounceTime, distinctUntilChanged, map, Observable} from "rxjs";
 import {CalendarDataBrokerService} from "../../../services/calendar-data/calendar-data-broker.service";
 import {AccordionComponent, AccordionData} from "../accordion/accordion.component";
 import {MenuService} from "../../../model/services/menu.service";
+import {CalendarFilterService} from "../../../services/calendar-filter/calendar-filter.service";
+
 
 @Component({
     selector: 'app-menu',
@@ -153,8 +151,8 @@ export class MenuComponent {
 
     searchList: { label: string, action: () => void }[] = [];
 
-
     constructor(private broker: CalendarDataBrokerService,
+                private filter: CalendarFilterService,
                 protected menuService: MenuService) {
 
         this.broker.onInitialized.subscribe(() => {
@@ -173,12 +171,11 @@ export class MenuComponent {
     }
 
     private getClassData(): void {
-
         const allClassesData = this.broker.unique().classes.filter(c => c).sort();
         const allNestedData = allClassesData.map((s) => {
             return {
                 label: s,
-                action: () => this.openTimetable(s),
+                action: () => this.openTimetable("class", s),
             }
         });
 
@@ -204,7 +201,7 @@ export class MenuComponent {
         const nestedData = teachers.map((teacher) => {
             return {
                 label: teacher.surname + ", " + teacher.name + " (" + teacher.abbr + ")",
-                action: () => this.openTimetable(teacher),
+                action: () => this.openTimetable("teacher", teacher),
             }
         });
         this.teacherData.nestedData = nestedData;
@@ -219,7 +216,7 @@ export class MenuComponent {
         const nestedData = rooms.map((room) => {
             return {
                 label: room,
-                action: () => this.openTimetable(room),
+                action: () => this.openTimetable("room", room),
             }
         });
 
@@ -244,11 +241,29 @@ export class MenuComponent {
 
     }
 
-    private openTimetable(data: any): void {
-        console.log(data);
+    protected updateTimetable(event: Event) {
+        if (this.model)
+            this.model.action();
     }
 
-    formatter = (result: {label: string, action: () => void }) => result.label;
+    private openTimetable(type: "teacher" | "room" | "class", data: any): void {
+        switch (type) {
+            case "teacher":
+                this.filter.clear(false);
+                this.filter.teacher({teacher: data.surname + " " + data.name});
+                break;
+            case "room":
+                this.filter.clear(false);
+                this.filter.room({room: data});
+                break;
+            case "class":
+                this.filter.clear(false);
+                this.filter.class({class: data});
+                break;
+        }
+    }
+
+    formatter = (result: { label: string, action: () => void }) => result.label;
 
     search = (text$: Observable<string>) =>
         text$.pipe(

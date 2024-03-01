@@ -1,5 +1,7 @@
+@import "../../../../styles";
+
 :host {
-    background-color: rgb(229, 229, 229);
+    background-color: $accent-color;
     display: block;
     position: relative;
 }
