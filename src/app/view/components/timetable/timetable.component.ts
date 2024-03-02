@@ -39,13 +39,13 @@ export class TimetableComponent {
     }
 
     constructor(protected broker: CalendarDataBrokerService, protected filter: CalendarFilterService) {
-        this.broker.onInitialized.subscribe(() => {
+        /*this.broker.onInitialized.subscribe(() => {
                 const data = this.broker.query()
                     .week({year: 2024, month: 5, day: 13})
                     .class({class: "M2g"})
                 this.data = data.export()
             }
-        )
+        )*/
         this.filter.onChanged.subscribe(() => {
                 const data = this.broker.query().week({year: 2024, month: 5, day: 13})
                 this.data = data.export()

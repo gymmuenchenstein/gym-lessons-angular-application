@@ -35,7 +35,8 @@ $box-shadow-color: rgba(0, 0, 0, 0.20);
 
 .day {
     width: 20%;
-    margin: $paddingDay;
+    padding: $paddingDay;
+    border-left: 1px solid $box-shadow-color;
 }
 
 .index {
@@ -87,9 +88,9 @@ span {
     align-self: center;
 }
 
-.weekday2 {
+/*.weekday2 {
     box-shadow: 7px 0 5px -6px $box-shadow-color, -7px 0 5px -6px $box-shadow-color;
 }
 .weekday4 {
     box-shadow: 7px 0 5px -6px $box-shadow-color, -7px 0 5px -6px $box-shadow-color;
-}
+}*/
