@@ -7,6 +7,7 @@ $marginLesson: 0.2rem;
 $paddingDay: 5px;
 
 $timeTextWidth: 5rem;
+
 $windowPadding: 15px;
 
 $box-shadow-color: rgba(0, 0, 0, 0.20);
@@ -36,7 +37,6 @@ $box-shadow-color: rgba(0, 0, 0, 0.20);
 .day {
     width: 20%;
     padding: $paddingDay;
-    border-left: 1px solid $box-shadow-color;
 }
 
 .index {
@@ -67,10 +67,12 @@ $box-shadow-color: rgba(0, 0, 0, 0.20);
 
 .timeslot {
     text-align: right;
-    vertical-align: top;
+    vertical-align: middle;
     width: $timeTextWidth;
     padding-right: $windowPadding;
-    display: inline-block;
+    margin: 0;
+    display: inline-grid;
+    top: -2px;
 }
 
 .timebar:after {
@@ -80,7 +82,7 @@ $box-shadow-color: rgba(0, 0, 0, 0.20);
     width: 100vw;
     height: 1px;
     position: absolute;
-    top: -$marginLesson;
+    top: calc(-#{$marginLesson} + 2px);
     left: 0;
 }
 
@@ -88,9 +90,18 @@ span {
     align-self: center;
 }
 
-/*.weekday2 {
-    box-shadow: 7px 0 5px -6px $box-shadow-color, -7px 0 5px -6px $box-shadow-color;
+.weekday1 {
+    border-left: 1px solid $box-shadow-color;
+}
+.weekday2 {
+    border-left: 1px solid $box-shadow-color;
+}
+.weekday3 {
+    border-left: 1px solid $box-shadow-color;
 }
 .weekday4 {
-    box-shadow: 7px 0 5px -6px $box-shadow-color, -7px 0 5px -6px $box-shadow-color;
-}*/
+    border-left: 1px solid $box-shadow-color;
+}
+.weekday5 {
+    border-left: 1px solid $box-shadow-color;
+}
