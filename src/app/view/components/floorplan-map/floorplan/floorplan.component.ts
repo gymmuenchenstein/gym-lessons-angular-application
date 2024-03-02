@@ -9,6 +9,7 @@ import {
 import {NgForOf, NgOptimizedImage} from "@angular/common";
 import {CalendarFilterService} from "../../../../services/calendar-filter/calendar-filter.service";
 import {NgbOffcanvas} from "@ng-bootstrap/ng-bootstrap";
+import {CalendarDataBrokerService} from "../../../../services/calendar-data/calendar-data-broker.service";
 
 @Component({
     selector: 'app-floorplan',
@@ -29,7 +30,7 @@ export class FloorplanComponent implements AfterViewInit, OnChanges {
 
     private offcanvasService = inject(NgbOffcanvas);
 
-    constructor(private filter: CalendarFilterService) {
+    constructor(private broker: CalendarDataBrokerService, private filter: CalendarFilterService) {
 
     }
 
@@ -37,10 +38,14 @@ export class FloorplanComponent implements AfterViewInit, OnChanges {
         this.selectRoom(this.selectedRoom);
 
         for (const roomEl of this.roomEls) {
-            console.log(roomEl);
             roomEl.nativeElement.addEventListener('click', (event: MouseEvent) => {
                 this.offcanvasService.dismiss();
-                this.filter.room({room: this.getRoomId(roomEl.nativeElement.id)});
+
+                const selectedRoom = this.getRoomId(roomEl.nativeElement.id)
+                if (this.broker.unique().rooms.includes(selectedRoom)) {
+                    this.filter.clear(false);
+                    this.filter.room({room: selectedRoom});
+                }
             });
         }
     }
@@ -61,7 +66,7 @@ export class FloorplanComponent implements AfterViewInit, OnChanges {
     }
 
     private getRoomId(id: string) {
-        const result = [...id.matchAll(/room-(\d+)/g)];
+        const result = [...id.matchAll(/room-(.+)/g)];
         if (result[0] != undefined)
             return result[0][1];
         else
