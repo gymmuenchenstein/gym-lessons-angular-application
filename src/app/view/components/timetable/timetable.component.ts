@@ -8,7 +8,6 @@ import {CalendarFilterService} from "../../../services/calendar-filter/calendar-
 import {MultilessonComponent} from "../multilesson/multilesson.component";
 import dayjs from 'dayjs';
 
-// @ts-ignore
 @Component({
     selector: 'app-timetable',
     standalone: true,
