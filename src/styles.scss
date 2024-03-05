@@ -2,11 +2,7 @@
 
 /* Importing Bootstrap SCSS file. */
 @import "bootstrap/scss/bootstrap";
-
-/* Importing Bootstrap Icons */
-@import "bootstrap-icons/font/bootstrap-icons.css";
-
-$accent-color: #cacb45;
+@import "variables";
 
 * {
     scrollbar-width: thin;
