@@ -1,0 +1,41 @@
+:root {
+  top: 0;
+  position: relative;
+}
+
+.window {
+  display: flex;
+  min-width: 680px;
+}
+
+.day {
+  width: 20%;
+  margin: 5px;
+}
+
+.index {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto;
+  align-items: center;
+  height: 50px;
+}
+
+.subindex {
+  align-items: center;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow: auto;
+  width: 100%;
+}
+
+.lesson {
+  align-items: center;
+  border-radius: 10px;
+  margin: 0.2rem;
+  padding: 0.5rem;
+}
+
+span {
+  align-self: center;
+}

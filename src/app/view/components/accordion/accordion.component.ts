@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {JsonPipe, NgClass, NgIf, NgStyle} from "@angular/common";
+import {NgbTooltip} from "@ng-bootstrap/ng-bootstrap";
 
 export type AccordionData = { label: string, action?: () => void, nestedData?: AccordionData[] };
 
@@ -10,7 +11,8 @@ export type AccordionData = { label: string, action?: () => void, nestedData?: A
         NgIf,
         JsonPipe,
         NgClass,
-        NgStyle
+        NgStyle,
+        NgbTooltip
     ],
     templateUrl: './accordion.component.html',
     styleUrl: './accordion.component.scss'

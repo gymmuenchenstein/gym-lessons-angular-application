@@ -4,7 +4,7 @@
 
         <div (click)="showNestedData = !showNestedData" class="item-with-children"
             [ngStyle]="{'background-color': calculateColor()}">
-            <div>{{ data.label }}</div>
+            <div class="text-truncate" [ngbTooltip]="data.label">{{ data.label }}</div>
             @if (showNestedData) {
                 <i class="bi bi-chevron-up"></i>
             } @else {
@@ -14,7 +14,9 @@
 
     } @else {
 
-        <div (click)="data.action && data.action()" class="item-without-children"
+        <div (click)="data.action && data.action()"
+             class="item-without-children text-truncate"
+             [ngbTooltip]="data.label"
              [ngClass]="(first ? 'first' : '') + ' ' + (last ? 'last' : '')">
             {{ data.label }}
         </div>

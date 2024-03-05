@@ -35,13 +35,14 @@ export class CalendarDataQuery {
      * @param args year, month and day (any day of the week)
      */
     week(args: { year: number, month: number, day: number }) {
+        args.month=args.month-1
         const rootDate = dayjs(args);
-        const startDate = rootDate.subtract({days: rootDate.day() });
+        const startDate = rootDate.subtract({days: rootDate.day()-1 });
         const endDate = startDate.add(dayjs.duration({days: 6}));
 
         this.raw = this.raw.filter((entry) => {
-            return (entry.day >= startDate.day() && entry.month >= startDate.month() && entry.year >= startDate.year()) &&
-                (entry.day <= endDate.day() && entry.month <= endDate.month() && entry.year <= endDate.year())
+            const entrydate=dayjs({year:entry.year,month:entry.month-1,date:entry.day,hour:12});
+            return entrydate.isAfter(startDate) && entrydate.isBefore(endDate);
         });
         return this;
     }
@@ -146,7 +147,7 @@ export class CalendarDataQuery {
                 }],
                 datetime: dayjs({
                     year: Number(entry.year),
-                    month: Number(entry.month),
+                    month: Number(entry.month)-1,
                     day: Number(entry.day),
                     minute: Number(String(entry.time).slice(String(entry.time).length - 2, String(entry.time).length)),
                     hour: Number(String(entry.time).slice(0, String(entry.time).length - 2)),

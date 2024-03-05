@@ -1,0 +1,8 @@
+app-menu {
+    border-right: 1px solid var(--bs-gray-200);
+
+    @media screen and (max-width: 992px) {
+        border-bottom: 1px solid var(--bs-gray-200);
+        border-right: 0;
+    }
+}

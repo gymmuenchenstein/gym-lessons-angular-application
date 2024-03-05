@@ -5,3 +5,27 @@
 
 /* Importing Bootstrap Icons */
 @import "bootstrap-icons/font/bootstrap-icons.css";
+
+* {
+  scrollbar-width: thin;
+}
+
+body {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.fullheight {
+  height: 100%;
+}
+
+.box-shadow {
+  display: block;
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.27);
+}
+
+.no-margin {
+  margin: 0;
+  padding: 0;
+}
