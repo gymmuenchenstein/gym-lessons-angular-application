@@ -6,6 +6,7 @@ import {NgbOffcanvas} from "@ng-bootstrap/ng-bootstrap";
 import {DetailsComponent} from "../details/details.component";
 import {CalendarFilterService} from "../../../services/calendar-filter/calendar-filter.service";
 import {MultilessonComponent} from "../multilesson/multilesson.component";
+import dayjs from "dayjs";
 
 // @ts-ignore
 @Component({
@@ -21,10 +22,12 @@ import {MultilessonComponent} from "../multilesson/multilesson.component";
 })
 
 export class TimetableComponent {
+    
+    protected readonly dayjs = dayjs;
+
     protected data: CalendarDataEntry[] = [];
     protected lessonindices = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
     protected lessontimes = ["8:00", "8:55", "10:00", "10:55", "11:50", "12:45", "13:40", "14:35", "15:30", "16:25", "17:20", "18:05"]
-    protected weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
     protected days: number[] = [1, 2, 3, 4, 5];
 
     private offcanvasService = inject(NgbOffcanvas);
@@ -79,6 +82,7 @@ export class TimetableComponent {
     getdatabylessenindex(index: number, day: any) {
         return this.data.filter(lesson => lesson.index == index && lesson.datetime?.day() == day);
     }
+
 }
 
 

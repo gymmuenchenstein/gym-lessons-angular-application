@@ -6,7 +6,7 @@
         </div>
     </div>
     <div class="day weekday{{i + 1}}" *ngFor="let day of days; index as i" >
-        <p class="day-title">{{weekdays[i]}}</p>
+        <p class="day-title">{{ dayjs().startOf("week").add(i, "days").format("dddd") }}</p>
         <div class="index indexlesson{{indice}}" *ngFor="let indice of lessonindices">
             <div class="subindex row">
 
