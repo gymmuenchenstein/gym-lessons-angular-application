@@ -6,7 +6,7 @@ import {NgbOffcanvas} from "@ng-bootstrap/ng-bootstrap";
 import {DetailsComponent} from "../details/details.component";
 import {CalendarFilterService} from "../../../services/calendar-filter/calendar-filter.service";
 import {MultilessonComponent} from "../multilesson/multilesson.component";
-import dayjs from "dayjs";
+import dayjs from 'dayjs';
 
 // @ts-ignore
 @Component({
@@ -22,8 +22,10 @@ import dayjs from "dayjs";
 })
 
 export class TimetableComponent {
-    
+
     protected readonly dayjs = dayjs;
+    protected timestamp = {day: 0, month: 0, year: 0};
+    protected rawdate: string = "";
 
     protected data: CalendarDataEntry[] = [];
     protected lessonindices = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
@@ -42,6 +44,7 @@ export class TimetableComponent {
     }
 
     constructor(protected broker: CalendarDataBrokerService, protected filter: CalendarFilterService) {
+        this.setDate(dayjs(Date()).format("YYYY-MM-DD"));
         /*this.broker.onInitialized.subscribe(() => {
                 const data = this.broker.query()
                     .week({year: 2024, month: 5, day: 13})
@@ -50,8 +53,14 @@ export class TimetableComponent {
             }
         )*/
         this.filter.onChanged.subscribe(() => {
-                const data = this.broker.query().week({year: 2024, month: 5, day: 13})
-                this.data = data.export()
+                if (Object.keys(this.filter.currentFilterSequence).length >= 2 || !Object.keys(this.filter.currentFilterSequence).includes("week")) {
+                    const data = this.broker.query().week({
+                        year: this.timestamp.year,
+                        month: this.timestamp.month,
+                        day: this.timestamp.day
+                    });
+                    this.data = data.export();
+                }
             }
         )
         /*setTimeout(() => {
@@ -83,6 +92,24 @@ export class TimetableComponent {
         return this.data.filter(lesson => lesson.index == index && lesson.datetime?.day() == day);
     }
 
+    applyDatetime($event: Event) {
+        if (($event.target as HTMLInputElement).value != "")
+            this.setDate(($event.target as HTMLInputElement).value);
+    }
+
+    skipWeek(amount: number) {
+        const newDate = dayjs(this.rawdate).add(amount * 7, 'days')
+        this.setDate(newDate.format("YYYY-MM-DD"));
+    }
+
+    setDate(date: string) {
+        this.rawdate = date;
+        this.timestamp.day = dayjs(date).day() + 1;
+        this.timestamp.month = dayjs(date).month() + 1;
+        this.timestamp.year = dayjs(date).year();
+        console.log(this.rawdate);
+        this.filter.week({year: this.timestamp.year, month: this.timestamp.month, day: this.timestamp.day});
+    }
 }
 
 

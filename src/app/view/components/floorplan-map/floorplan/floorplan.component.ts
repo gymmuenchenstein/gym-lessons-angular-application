@@ -42,6 +42,7 @@ export class FloorplanComponent implements AfterViewInit, OnChanges {
                 this.offcanvasService.dismiss();
 
                 const selectedRoom = this.getRoomId(roomEl.nativeElement.id)
+                console.log(this.broker.unique().rooms, selectedRoom);
                 if (this.broker.unique().rooms.includes(selectedRoom)) {
                     this.filter.clear(false);
                     this.filter.room({room: selectedRoom});

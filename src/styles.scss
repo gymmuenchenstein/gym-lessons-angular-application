@@ -1,12 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 
+$accent-color: #cacb45;
+$primary: #cacb45;
+
 /* Importing Bootstrap SCSS file. */
 @import "bootstrap/scss/bootstrap";
 
 /* Importing Bootstrap Icons */
 @import "bootstrap-icons/font/bootstrap-icons.css";
-
-$accent-color: #cacb45;
 
 * {
     scrollbar-width: thin;

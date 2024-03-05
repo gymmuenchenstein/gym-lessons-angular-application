@@ -1,3 +1,8 @@
+<div class="form-group" style="width: 100%">
+    <button type="button" class="btn btn-primary" (click)="skipWeek(-1)"><i class="bi bi-caret-left"></i></button>&nbsp;
+    <input type="date" class="form-control" id="targetDate" value="{{rawdate}}" (change)="applyDatetime($event)" style="display: inline-block; width: min-content; position: relative; top: 3px;">&nbsp;
+    <button type="button" class="btn btn-primary" (click)="skipWeek(1)"><i class="bi bi-caret-right"></i></button>
+</div><br>
 <div class="window">
     <div class="day timeslot">
         <p class="day-title timeslot">&nbsp;</p>
