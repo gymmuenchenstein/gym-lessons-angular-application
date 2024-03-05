@@ -1,41 +1,107 @@
+@import "../../../../styles";
+
+$heightLesson: 50px;
+
+$paddingLesson: 0.5rem;
+$marginLesson: 0.2rem;
+$paddingDay: 5px;
+
+$timeTextWidth: 5rem;
+
+$windowPadding: 15px;
+
+$box-shadow-color: rgba(0, 0, 0, 0.20);
+
 :root {
-  top: 0;
-  position: relative;
+    top: 0;
+    position: relative;
 }
 
 .window {
-  display: flex;
-  min-width: 680px;
+    display: flex;
+    position: relative;
+    min-width: 680px;
+    height: fit-content;
+    overflow-x: hidden;
+}
+
+.day-title {
+    font-size: 1.5rem;
+    display: inline-block;
+    width: 100%;
+    margin: 0;
+    padding: 0 0 $windowPadding 0;
+    text-align: center;
 }
 
 .day {
-  width: 20%;
-  margin: 5px;
+    width: 20%;
+    padding: $paddingDay;
 }
 
 .index {
-  position: relative;
-  display: grid;
-  grid-template-columns: auto;
-  align-items: center;
-  height: 50px;
+    position: relative;
+    display: grid;
+    grid-template-columns: auto;
+    align-items: center;
+    height: $heightLesson;
+    padding: 0;
 }
 
 .subindex {
-  align-items: center;
-  display: flex;
-  flex-wrap: nowrap;
-  overflow: auto;
-  width: 100%;
+    align-items: center;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow: auto;
+    width: 100%;
+    margin: 0;
 }
 
 .lesson {
-  align-items: center;
-  border-radius: 10px;
-  margin: 0.2rem;
-  padding: 0.5rem;
+    align-items: center;
+    border-radius: 10px;
+    padding: $paddingLesson;
+    margin: $marginLesson;
+    height: 100%;
+}
+
+.timeslot {
+    text-align: right;
+    vertical-align: middle;
+    width: $timeTextWidth;
+    padding-right: $windowPadding;
+    margin: 0;
+    display: inline-grid;
+    top: -2px;
+}
+
+.timebar:after {
+    display: block;
+    content: " ";
+    background: $box-shadow-color;
+    width: 100vw;
+    height: 1px;
+    position: absolute;
+    top: calc(-#{$marginLesson} + 2px);
+    left: 0;
 }
 
 span {
-  align-self: center;
+    align-self: center;
+}
+
+.weekday1 {
+    border-left: 1px solid $box-shadow-color;
+}
+.weekday2 {
+    border-left: 1px solid $box-shadow-color;
+}
+.weekday3 {
+    border-left: 1px solid $box-shadow-color;
+}
+.weekday4 {
+    border-left: 1px solid $box-shadow-color;
+}
+.weekday5 {
+    border-left: 1px solid $box-shadow-color;
 }

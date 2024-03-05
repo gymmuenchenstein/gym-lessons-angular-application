@@ -1,0 +1,14 @@
+@import "../timetable/timetable.component";
+
+:host {
+    padding: 0.5rem;
+    overflow-y: auto;
+}
+
+.lesson {
+    align-items: center;
+    border-radius: 10px;
+    padding: $paddingLesson;
+    margin: 0.5rem;
+    height: $heightLesson;
+}

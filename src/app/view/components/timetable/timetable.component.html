@@ -1,11 +1,29 @@
-
 <div class="window">
-    <div class=" day" *ngFor="let day of days" >
-        <div class="index indexlesson{{i}}" *ngFor="let i of lessonindices">
+    <div class="day timeslot">
+        <p class="day-title timeslot">&nbsp;</p>
+        <div class="index indexlesson timeslot timebar" *ngFor="let indice of lessonindices; index as i">
+            {{lessontimes[i]}}
+        </div>
+    </div>
+    <div class="day weekday{{i + 1}}" *ngFor="let day of days; index as i" >
+        <p class="day-title">{{ dayjs().startOf("week").add(i, "days").format("dddd") }}</p>
+        <div class="index indexlesson{{indice}}" *ngFor="let indice of lessonindices">
             <div class="subindex row">
-                <div class="lesson col btn btn-light box-shadow" *ngFor="let lesson of getdatabylessenindex(i, day)" (click)="broker.setSelectEntry(lesson);openEnd()">
-                    <span class="span {{lesson.lesson}}" >{{lesson.lesson}} </span>
-                </div>
+
+                @if (isCollapsibleIndex(indice, day) == 1) {
+
+                    <div class="lesson col btn btn-light box-shadow" *ngFor="let lesson of getdatabylessenindex(indice, day)" (click)="broker.setSelectEntry(lesson);openEnd()">
+                        <span class="span {{lesson.lesson}}" >{{lesson.lesson}}</span>
+                    </div>
+
+                } @else if (isCollapsibleIndex(indice, day) == 2) {
+
+                    <div class="col expansionButton" (click)="openMultilesson(getdatabylessenindex(indice, day))">
+                        <i class="bi bi-box-seam"></i> Collapsed lessons
+                    </div>
+
+                }
+
             </div>
         </div>
     </div>

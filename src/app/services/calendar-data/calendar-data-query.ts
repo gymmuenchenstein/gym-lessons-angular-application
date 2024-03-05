@@ -5,6 +5,7 @@ import {RawTeacherDataEntry} from "./data-entries/raw-teacher-data-entry";
 import dayjs from "dayjs";
 import dayjsObjectSupport from "dayjs/plugin/objectSupport";
 import dayjsDuration from "dayjs/plugin/duration";
+import {CalendarFilterService} from "../calendar-filter/calendar-filter.service";
 
 dayjs.extend(dayjsObjectSupport);
 dayjs.extend(dayjsDuration);
@@ -14,9 +15,15 @@ export class CalendarDataQuery {
     private raw: RawCalendarDataEntry[];
     private teachers: RawTeacherDataEntry[];
 
-    constructor(raw: RawCalendarDataEntry[], teachers: RawTeacherDataEntry[] = []) {
+    private useFilter: boolean;
+    private filter: CalendarFilterService;
+
+    constructor(raw: RawCalendarDataEntry[], teachers: RawTeacherDataEntry[] = [], useFilter = true, filter: CalendarFilterService) {
         this.raw = raw;
         this.teachers = teachers;
+
+        this.useFilter = useFilter;
+        this.filter = filter;
     }
 
     /**
@@ -81,12 +88,23 @@ export class CalendarDataQuery {
     }
 
     /**
-     * Filters all calendar entries by the condition of similarity to the teachers abbreviation
+     * Filters all calendar entries by the lesson name
      * @param args lesson
      */
     lesson(args: { lesson: string }) {
         this.raw = this.raw.filter((entry) => {
             return entry.lesson.toLowerCase().includes(args.lesson.toLowerCase());
+        });
+        return this;
+    }
+
+    /**
+     * Filters all calendar entries by room
+     * @param args room
+     */
+    room(args: { room: string }) {
+        this.raw = this.raw.filter((entry) => {
+            return entry.room.toLowerCase().includes(args.room.toLowerCase());
         });
         return this;
     }
@@ -120,6 +138,9 @@ export class CalendarDataQuery {
      * @returns the cleaned calendar data, as in: combined duplicates / overlaps and readable datatype
      */
     export() {
+        if (this.useFilter)
+            this.filter.filter(this);
+
         let clean: CalendarDataEntry[] = [];
 
         let obj: CalendarDataEntry;

@@ -6,26 +6,28 @@
 /* Importing Bootstrap Icons */
 @import "bootstrap-icons/font/bootstrap-icons.css";
 
+$accent-color: #cacb45;
+
 * {
-  scrollbar-width: thin;
+    scrollbar-width: thin;
 }
 
 body {
-  position: relative;
-  height: 100vh;
-  overflow: hidden;
+    position: relative;
+    height: 100vh;
+    --accent-color: #{$accent-color};
 }
 
 .fullheight {
-  height: 100%;
+    height: 100%;
 }
 
 .box-shadow {
-  display: block;
-  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.27);
+    display: block;
+    box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.27);
 }
 
 .no-margin {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }

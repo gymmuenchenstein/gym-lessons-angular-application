@@ -1,30 +1,32 @@
+@import "../../../../../styles";
+
 .root {
-    width: 100px;
-    fill: transparent;
+  width: 100px;
+  fill: transparent;
 }
 
 .room {
-    fill: var(--bs-gray);
-    opacity: .2;
+  fill: var(--bs-gray);
+  opacity: .2;
 
-    transition: fill ease-in-out 0.2s;
+  transition: fill ease-in-out 0.2s;
 }
 
 .room:hover {
-    fill:   (rgb(255, 105, 105));
+  fill: rgba($accent-color, 0.9);
 }
 
 .room.selected {
-    fill: (rgb(255,0,0));
+  fill: var(--accent-color);
 }
 
 .floor-edge {
-    fill: transparent;
-    stroke: transparent;
-    pointer-events: none;
+  fill: transparent;
+  stroke: transparent;
+  pointer-events: none;
 }
 
 .svg, .root {
-    width: 180%;
-    height: 180%;
+  width: 180%;
+  height: 180%;
 }
