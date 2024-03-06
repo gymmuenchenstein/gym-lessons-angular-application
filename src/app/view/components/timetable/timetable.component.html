@@ -30,8 +30,11 @@
                     <div class="slot"
                          [ngClass]="(timeIndex < lessonTimes.length - 1 ? 'border-bottom' : '') + (dayIndex < days.length - 1 ? ' border-end' : '')">
 
-                        <app-timetable-slot [calendarDataEntries]="getCalendarDataEntries(timeIndex, dayIndex)">
-                        </app-timetable-slot>
+                        @if (getCalendarDataEntries(timeIndex, dayIndex); as calendarDataEntries) {
+                            @if (calendarDataEntries.length > 0) {
+                                <app-timetable-slot [calendarDataEntries]="getCalendarDataEntries(timeIndex, dayIndex)"></app-timetable-slot>
+                            }
+                        }
 
                     </div>
                 }

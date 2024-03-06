@@ -36,7 +36,6 @@ export class CalendarDataBrokerService {
         this.config = await this.readConfig();
         this.teachers = await this.readTeachers("assets/" + this.config.dataPath + this.config.teachers.file, this.config.teachers.fields);
         this.raw = await this.readAll(this.config.dataPath, this.config.entries.files, this.config.entries.fields);
-        console.log(this.uniques.lessons[69])
         await this.readLessons("assets/" + this.config.dataPath + this.config.lessons.file, this.config.lessons.fields);
     }
 
@@ -135,14 +134,17 @@ export class CalendarDataBrokerService {
         return csvContents
             .trim()
             .split(/\n/)
-            .map(row => {
-                let objectEntries: { [key: string]: any } = {}
-                const rowEntries = row.split(delimiter)
+            .map((row: string, index: number) => {
+                let objectEntries: { [key: string]: any } = {
+                    id: index,
+                };
+                const rowEntries = row.split(delimiter);
                 for (let i = 0; i < rowEntries.length; i++) {
-                    if (fields[i].length > 0)
+                    if (fields[i].length > 0) {
                         objectEntries[fields[i]] = rowEntries[i].replace(/\r/, "");
+                    }
                 }
-                return objectEntries
+                return objectEntries;
             });
     }
 

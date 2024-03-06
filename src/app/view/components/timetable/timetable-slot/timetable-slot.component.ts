@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, inject, Input, ViewChild } from "@angular/core";
+import { Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, inject, Input, SimpleChanges, ViewChild } from "@angular/core";
 import { CalendarDataEntry } from "../../../../services/calendar-data/data-entries/calendar-data-entry";
 import { NgbOffcanvas } from "@ng-bootstrap/ng-bootstrap";
 import { DetailsComponent } from "../../details/details.component";
@@ -25,6 +25,21 @@ export class TimetableSlotComponent {
      * Constructor.
      */
     constructor(private broker: CalendarDataBrokerService) {}
+
+    /**
+     * Makes sure the swiper is redrawn if data changes.
+     */
+    ngOnChanges(simpleChanges: SimpleChanges): void {
+        if (simpleChanges["calendarDataEntries"]) {
+            const oldValues: CalendarDataEntry[] | undefined = simpleChanges["calendarDataEntries"].previousValue;
+            const newValues: CalendarDataEntry[] | undefined = simpleChanges["calendarDataEntries"].currentValue;
+            if (oldValues?.length !== newValues?.length || JSON.stringify(oldValues) !== JSON.stringify(newValues)) {
+                setTimeout(() => {
+                    this.swiperContainer?.nativeElement?.swiper.update();
+                });
+            }
+        }
+    }
 
     /**
      * Gets the teachers of a lesson.
