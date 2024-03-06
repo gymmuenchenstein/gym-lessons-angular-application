@@ -6,6 +6,7 @@ import dayjs from "dayjs";
 import dayjsObjectSupport from "dayjs/plugin/objectSupport";
 import dayjsDuration from "dayjs/plugin/duration";
 import {CalendarFilterService} from "../calendar-filter/calendar-filter.service";
+import {RawLessonDataEntry} from "./data-entries/raw-lesson-data-entry";
 
 dayjs.extend(dayjsObjectSupport);
 dayjs.extend(dayjsDuration);
@@ -14,13 +15,15 @@ export class CalendarDataQuery {
 
     private raw: RawCalendarDataEntry[];
     private teachers: RawTeacherDataEntry[];
+    private lessons: RawLessonDataEntry[];
 
     private useFilter: boolean;
     private filter: CalendarFilterService;
 
-    constructor(raw: RawCalendarDataEntry[], teachers: RawTeacherDataEntry[] = [], useFilter = true, filter: CalendarFilterService) {
+    constructor(raw: RawCalendarDataEntry[], teachers: RawTeacherDataEntry[] = [], lessons: RawLessonDataEntry[] = [], useFilter = true, filter: CalendarFilterService) {
         this.raw = raw;
         this.teachers = teachers;
+        this.lessons = lessons;
 
         this.useFilter = useFilter;
         this.filter = filter;
@@ -148,6 +151,9 @@ export class CalendarDataQuery {
             const teacher = this.teachers.filter((teacher) => {
                 return teacher.abbr == entry.abbr
             })[0];
+            const lesson = this.lessons.filter((lesson) => {
+                return lesson.short == entry.lesson
+            })[0];
             obj = {
                 index: entry.index,
                 teachers: [{
@@ -156,7 +162,7 @@ export class CalendarDataQuery {
                     abbr: entry.abbr
                 }],
                 room: entry.room,
-                lesson: entry.lesson,
+                lesson: lesson,
                 classes: [{
                     full: entry.class,
                     department: {
