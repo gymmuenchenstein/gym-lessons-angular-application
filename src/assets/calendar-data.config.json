@@ -4,6 +4,10 @@
         "file": "LP.csv",
         "fields": ["surname", "name", "abbr"]
     },
+    "lessons": {
+        "file": "LUE.csv",
+        "fields": ["full", "short"]
+    },
     "entries": {
         "files": [
             "Semester 2.csv"
