@@ -1,0 +1,10 @@
+<div class="timetable-slot">
+    @if (calendarDataEntries.length) {
+            @for (entry of calendarDataEntries; track entry) {
+                    <div class="lesson" (click)="openDetails(entry)">
+                        <div class="title">{{ entry.lesson }}</div>
+                        <div class="details">{{ getTeachersString(entry) }} | {{ entry.room }}</div>
+                    </div>
+            }
+    }
+</div>

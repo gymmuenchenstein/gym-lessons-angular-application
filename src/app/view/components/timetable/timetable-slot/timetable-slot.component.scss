@@ -1,0 +1,27 @@
+@import "../../../../../variables.scss";
+
+.timetable-slot {
+    $heightLesson: 5rem;
+    position: relative;
+            .lesson {
+                border: 1px solid $gray-500;
+                border-radius: 4px;
+                background: $accent-color;
+                text-align: center;
+                cursor: pointer;
+                padding: 0.25rem 0.25rem;
+
+                &:hover {
+                    background: #afaf3c;
+                }
+
+                .title {
+                    font-size: $font-size-sm;
+                }
+
+                .details {
+                    color: $text-muted;
+                    font-size: 0.75 * $font-size-sm;
+                }
+    }
+}
