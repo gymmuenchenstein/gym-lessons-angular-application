@@ -7,6 +7,7 @@ import {RawTeacherDataEntry} from "./data-entries/raw-teacher-data-entry";
 import {CalendarDataUniques} from "./data-entries/calendar-data-uniques";
 import {CalendarFilterService} from "../calendar-filter/calendar-filter.service";
 import {CalendarDataEntry} from "./data-entries/calendar-data-entry";
+import {RawLessonDataEntry} from "./data-entries/raw-lesson-data-entry";
 
 @Injectable({
     providedIn: 'root'
@@ -35,6 +36,8 @@ export class CalendarDataBrokerService {
         this.config = await this.readConfig();
         this.teachers = await this.readTeachers("assets/" + this.config.dataPath + this.config.teachers.file, this.config.teachers.fields);
         this.raw = await this.readAll(this.config.dataPath, this.config.entries.files, this.config.entries.fields);
+        console.log(this.uniques.lessons[69])
+        await this.readLessons("assets/" + this.config.dataPath + this.config.lessons.file, this.config.lessons.fields);
     }
 
     private async readConfig() {
@@ -54,6 +57,21 @@ export class CalendarDataBrokerService {
                         return unique.abbr === dat.abbr
                     })) {
                         this.uniques.teachers.push({surname: dat.surname, name: dat.name, abbr: dat.abbr});
+                    }
+                }
+                resolve(data);
+            });
+        });
+    }
+
+    private async readLessons(path: string, fields: string[]) {
+        return new Promise<RawLessonDataEntry[]>((resolve) => {
+            this.http.get(path, {responseType: "text"}).subscribe(table => {
+                const data = this.csv(fields, /[,;|\t]/gsm, table) as RawLessonDataEntry[];
+                for (const dat of data) {
+                    const index = this.uniques.lessons.findIndex((lesson) => { return lesson.short == dat.short });
+                    if (index >= 0) {
+                        this.uniques.lessons[index] = {full: dat.full, short: dat.short};
                     }
                 }
                 resolve(data);
@@ -94,9 +112,9 @@ export class CalendarDataBrokerService {
                     }
                     if (dat.lesson.length > 0) {
                         if (!this.uniques.lessons.find(unique => {
-                            return unique === dat.lesson
+                            return unique.short === dat.lesson
                         })) {
-                            this.uniques.lessons.push(dat.lesson);
+                            this.uniques.lessons.push({full: dat.lesson, short: dat.lesson});
                         }
                     }
                     if (dat.class.length > 0) {
@@ -133,7 +151,7 @@ export class CalendarDataBrokerService {
      * @return CalendarDataQuery used for querying calendar data
      */
     query(useFilter: boolean = true) {
-        let query = new CalendarDataQuery(this.raw, this.teachers, useFilter, this.filter);
+        let query = new CalendarDataQuery(this.raw, this.teachers, this.uniques.lessons, useFilter, this.filter);
         return query;
     }
 

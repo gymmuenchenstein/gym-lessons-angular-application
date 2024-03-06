@@ -10,7 +10,10 @@ export class CalendarDataEntry {
         abbr: string
     }[] = []
     room: string = ""
-    lesson: string = ""
+    lesson: {
+        full: string,
+        short: string
+    } = { full: "", short: "" }
     classes: {
         full: string,
         department: CalendarDataClassDepartment,
