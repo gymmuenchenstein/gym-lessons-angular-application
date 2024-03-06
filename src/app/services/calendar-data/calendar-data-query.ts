@@ -155,8 +155,10 @@ export class CalendarDataQuery {
                 return lesson.short == entry.lesson
             })[0];
             obj = {
+                id: entry.id,
                 index: entry.index,
                 teachers: [{
+                    id: teacher?.id,
                     surname: teacher?.surname,
                     name: teacher?.name,
                     abbr: entry.abbr

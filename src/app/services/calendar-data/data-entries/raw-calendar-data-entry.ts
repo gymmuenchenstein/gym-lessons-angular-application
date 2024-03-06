@@ -1,4 +1,5 @@
 export interface RawCalendarDataEntry {
+    id: number,
     index: number,
     abbr: string,
     room: string,
