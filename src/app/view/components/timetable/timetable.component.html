@@ -42,7 +42,7 @@
                 <div class="slot fs-4 border-bottom"
                      [ngClass]="dayIndex < days.length - 1 ? 'border-end' : ''">
                     {{ dayjs().startOf("week").add(dayIndex, "days").format("dddd") }}
-                    <p class="small-date-text">{{ dayjs().startOf("week").add(dayIndex, "days").format("DD.MM.YYYY") }}</p>
+                    <p class="small-date-text">{{ dayjs(model).startOf("week").add(dayIndex, "days").format("DD.MM.YYYY") }}</p>
                 </div>
 
                 @for (lessonTime of lessonTimes; track lessonTime; let timeIndex = $index) {
