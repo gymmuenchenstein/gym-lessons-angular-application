@@ -27,7 +27,9 @@ export class TimetableComponent {
 
     protected data: CalendarDataEntry[] = [];
 
-
+    /**
+     * Constructor.
+     */
     constructor(protected broker: CalendarDataBrokerService,
                 protected filter: CalendarFilterService) {
 
@@ -44,7 +46,7 @@ export class TimetableComponent {
 
         this.filter.onChanged.subscribe(() => {
                 const data = this.broker.query().week({year: 2024, month: 5, day: 13})
-                this.data = data.export()
+                this.data = data.export();
             }
         );
 

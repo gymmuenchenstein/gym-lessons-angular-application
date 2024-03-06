@@ -1,13 +1,16 @@
 <div class="offcanvas-header">
-    <h4 class="offcanvas-title">{{entry?.lesson?.full}}</h4>
+    <h4 class="offcanvas-title">
+        {{ entry?.lesson?.full }}
+        {{ entry?.lesson?.full !== entry?.lesson?.short ? "(" + entry?.lesson?.short + ")" : "" }}
+    </h4>
     <button type="button" class="btn-close" aria-label="Close"
             (click)="offcanvasService.dismiss('Cross click')"></button>
 </div>
 <div class="offcanvas-body noscroll">
-    <p> Zimmer: {{entry?.room}}<br>
-        Zeit: {{time}}<br>
-        Lehrpersonen: {{teachers}}<br>
-        Klassen: {{classes}}<br>
+    <p> Zimmer: {{ entry?.room }}<br>
+        Zeit: {{ time }}<br>
+        Lehrpersonen: {{ teachers }}<br>
+        Klassen: {{ classes }}<br>
     </p>
 </div>
 <app-floorplan [selectedRoom]="room" class="floorplan"></app-floorplan>

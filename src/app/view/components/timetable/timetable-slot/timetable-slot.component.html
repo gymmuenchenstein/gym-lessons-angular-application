@@ -5,13 +5,14 @@
                 <i class="bi bi-chevron-compact-left"></i>
             </div>
         }
-        <swiper-container #swiperContainer slides-per-view="auto"
+        <swiper-container #swiperContainer
+                          slides-per-view="auto"
                           space-between="10"
                           centered-slides="true">
             @for (entry of calendarDataEntries; track entry.id) {
                 <swiper-slide>
                     <div class="lesson" (click)="openDetails(entry)">
-                        <div class="title">{{ entry.lesson }}</div>
+                        <div class="title">{{ entry.lesson.short }}</div>
                         <div class="details">{{ getTeachersString(entry) }} | {{ entry.room }}</div>
                     </div>
                 </swiper-slide>
