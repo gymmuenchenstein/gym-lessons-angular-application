@@ -3,6 +3,7 @@ import { CommonModule } from "@angular/common";
 import { RouterOutlet } from "@angular/router";
 import dayjs from "dayjs";
 import "dayjs/locale/de-ch.js";
+import { register } from "swiper/element/bundle";
 
 @Component({
     selector: "app-root",
@@ -14,5 +15,6 @@ import "dayjs/locale/de-ch.js";
 export class AppComponent {
     constructor() {
         dayjs.locale("de-ch");
+        register();
     }
 }

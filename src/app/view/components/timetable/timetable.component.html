@@ -1,30 +1,45 @@
-<div class="window">
-    <div class="day timeslot">
-        <p class="day-title timeslot">&nbsp;</p>
-        <div class="index indexlesson timeslot timebar" *ngFor="let indice of lessonindices; index as i">
-            {{lessontimes[i]}}
+<div class="timetable">
+
+    <div class="row g-0">
+
+        <!-- Lesson times -->
+        <div class="col-1">
+
+            <div class="slot border-bottom border-end"></div>
+
+            @for (lessonTime of lessonTimes; track lessonTime; let timeIndex = $index) {
+                <div class="slot fw-bold border-end"
+                     [ngClass]="timeIndex < lessonTimes.length - 1 ? 'border-bottom' : ''">
+                    {{ lessonTime }}
+                </div>
+            }
+
         </div>
-    </div>
-    <div class="day weekday{{i + 1}}" *ngFor="let day of days; index as i" >
-        <p class="day-title">{{ dayjs().startOf("week").add(i, "days").format("dddd") }}</p>
-        <div class="index indexlesson{{indice}}" *ngFor="let indice of lessonindices">
-            <div class="subindex row">
 
-                @if (isCollapsibleIndex(indice, day) == 1) {
+        <!-- All days that are displayed -->
+        @for (day of days; track day; let dayIndex = $index) {
 
-                    <div class="lesson col btn btn-light box-shadow" *ngFor="let lesson of getdatabylessenindex(indice, day)" (click)="broker.setSelectEntry(lesson);openEnd()">
-                        <span class="span {{lesson.lesson.short}}" >{{lesson.lesson.short}}</span>
+            <div class="col-2">
+
+                <div class="slot fs-4 border-bottom"
+                     [ngClass]="dayIndex < days.length - 1 ? 'border-end' : ''">
+                    {{ dayjs().startOf("week").add(dayIndex, "days").format("dddd") }}
+                </div>
+
+                @for (lessonTime of lessonTimes; track lessonTime; let timeIndex = $index) {
+                    <div class="slot"
+                         [ngClass]="(timeIndex < lessonTimes.length - 1 ? 'border-bottom' : '') + (dayIndex < days.length - 1 ? ' border-end' : '')">
+
+                        <app-timetable-slot [calendarDataEntries]="getCalendarDataEntries(timeIndex, dayIndex)">
+                        </app-timetable-slot>
+
                     </div>
-
-                } @else if (isCollapsibleIndex(indice, day) == 2) {
-
-                    <div class="col expansionButton" (click)="openMultilesson(getdatabylessenindex(indice, day))">
-                        <i class="bi bi-box-seam"></i> Collapsed lessons
-                    </div>
-
                 }
 
             </div>
-        </div>
+
+        }
+
     </div>
+
 </div>
