@@ -3,7 +3,6 @@ import { TimetableComponent } from "../../components/timetable/timetable.compone
 import { NavbarComponent } from "../../components/navbar/navbar.component";
 import { MenuComponent } from "../../components/menu/menu.component";
 import { DetailsComponent } from "../../components/details/details.component";
-import { FooterComponent } from "../../components/footer/footer.component";
 import {NgClass} from "@angular/common";
 
 @Component({
@@ -14,7 +13,6 @@ import {NgClass} from "@angular/common";
         NavbarComponent,
         MenuComponent,
         DetailsComponent,
-        FooterComponent,
         NgClass
     ],
   templateUrl: './main.component.html',
