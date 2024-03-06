@@ -1,10 +1,12 @@
-import { Component } from "@angular/core";
-import { NgClass, NgForOf, NgIf } from "@angular/common";
-import { CalendarDataBrokerService } from "../../../services/calendar-data/calendar-data-broker.service";
-import { CalendarDataEntry } from "../../../services/calendar-data/data-entries/calendar-data-entry";
-import { CalendarFilterService } from "../../../services/calendar-filter/calendar-filter.service";
+import {Component, OnChanges, SimpleChanges} from "@angular/core";
+import {NgClass, NgForOf, NgIf} from "@angular/common";
+import {CalendarDataBrokerService} from "../../../services/calendar-data/calendar-data-broker.service";
+import {CalendarDataEntry} from "../../../services/calendar-data/data-entries/calendar-data-entry";
+import {CalendarFilterService} from "../../../services/calendar-filter/calendar-filter.service";
 import dayjs from "dayjs";
-import { TimetableSlotComponent } from "./timetable-slot/timetable-slot.component";
+import {TimetableSlotComponent} from "./timetable-slot/timetable-slot.component";
+import {NgbDatepicker, NgbDateStruct, NgbInputDatepicker} from "@ng-bootstrap/ng-bootstrap";
+import {FormsModule} from "@angular/forms";
 
 @Component({
     selector: "app-timetable",
@@ -13,7 +15,10 @@ import { TimetableSlotComponent } from "./timetable-slot/timetable-slot.componen
         NgForOf,
         NgClass,
         NgIf,
-        TimetableSlotComponent
+        TimetableSlotComponent,
+        NgbDatepicker,
+        FormsModule,
+        NgbInputDatepicker
     ],
     templateUrl: "./timetable.component.html",
     styleUrl: "./timetable.component.scss"
@@ -27,34 +32,24 @@ export class TimetableComponent {
 
     protected data: CalendarDataEntry[] = [];
 
+    model!: NgbDateStruct;
+
     /**
      * Constructor.
      */
     constructor(protected broker: CalendarDataBrokerService,
                 protected filter: CalendarFilterService) {
 
-        /*
-        this.broker.onInitialized.subscribe(() => {
-                const data = this.broker.query()
-                    .week({year: 2024, month: 5, day: 13})
-                    .class({class: "M2g"})
-                this.data = data.export()
-            }
-        );
-
-         */
+        this.model = { year: dayjs().year(), month: dayjs().month(), day: dayjs().day() }
+        this.changedDate();
 
         this.filter.onChanged.subscribe(() => {
-                const data = this.broker.query().week({year: 2024, month: 5, day: 13})
-                this.data = data.export();
+                if (this.model != undefined) {
+                    const data = this.broker.query().week(this.model);
+                    this.data = data.export();
+                }
             }
         );
-
-        /*setTimeout(() => {
-            this.filter.teacher({teacher: "Steiner Janik"})
-        }, 1500)*
-
-         */
     }
 
     /**
@@ -65,6 +60,11 @@ export class TimetableComponent {
         return this.data.filter(lesson => lesson.index == lessonIndex + 1 && lesson.datetime?.day() == dayIndex + 1);
     }
 
+    changedDate() {
+        // Note: if the date is invalid, then the model is a string, otherwise it's an object
+        if (this.model?.day != undefined && this.model?.month != undefined && this.model?.year != undefined)
+            this.filter.week(this.model);
+    }
 }
 
 
