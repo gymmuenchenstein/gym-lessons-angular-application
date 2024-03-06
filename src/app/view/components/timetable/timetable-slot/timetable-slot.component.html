@@ -8,7 +8,7 @@
         <swiper-container #swiperContainer slides-per-view="auto"
                           space-between="10"
                           centered-slides="true">
-            @for (entry of calendarDataEntries; track entry) {
+            @for (entry of calendarDataEntries; track entry.id) {
                 <swiper-slide>
                     <div class="lesson" (click)="openDetails(entry)">
                         <div class="title">{{ entry.lesson }}</div>
