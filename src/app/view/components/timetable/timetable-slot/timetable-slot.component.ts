@@ -17,6 +17,8 @@ export class TimetableSlotComponent {
 
     @Input() calendarDataEntries: CalendarDataEntry[] = [];
 
+    @ViewChild("swiperContainer", {static: false}) swiperContainer: ElementRef<SwiperContainer> | undefined;
+
     private offCanvasService: NgbOffcanvas = inject(NgbOffcanvas);
 
     /**
@@ -47,6 +49,20 @@ export class TimetableSlotComponent {
     protected openDetails(entry: CalendarDataEntry): void {
         this.broker.setSelectEntry(entry);
         this.offCanvasService.open(DetailsComponent, {position: "end"});
+    }
+
+    /**
+     * Slides to the previous lesson.
+     */
+    protected slidePrev(): void {
+        this.swiperContainer?.nativeElement?.swiper.slidePrev();
+    }
+
+    /**
+     * Slides to the next lesson.
+     */
+    protected slideNext(): void {
+        this.swiperContainer?.nativeElement?.swiper.slideNext();
     }
 
 }

@@ -1,10 +1,26 @@
 <div class="timetable-slot">
     @if (calendarDataEntries.length) {
+        @if (calendarDataEntries.length > 1) {
+            <div class="slide-prev" (click)="slidePrev()">
+                <i class="bi bi-chevron-compact-left"></i>
+            </div>
+        }
+        <swiper-container #swiperContainer slides-per-view="auto"
+                          space-between="10"
+                          centered-slides="true">
             @for (entry of calendarDataEntries; track entry) {
+                <swiper-slide>
                     <div class="lesson" (click)="openDetails(entry)">
                         <div class="title">{{ entry.lesson }}</div>
                         <div class="details">{{ getTeachersString(entry) }} | {{ entry.room }}</div>
                     </div>
+                </swiper-slide>
             }
+        </swiper-container>
+        @if (calendarDataEntries.length > 1) {
+            <div class="slide-next" (click)="slideNext()">
+                <i class="bi bi-chevron-compact-right"></i>
+            </div>
+        }
     }
 </div>
