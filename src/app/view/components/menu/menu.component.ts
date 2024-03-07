@@ -251,28 +251,33 @@ export class MenuComponent {
     private openTimetable(type: "teacher" | "room" | "class", data: any): void {
         switch (type) {
             case "teacher":
-                this.router.navigate(["selection", `abbr:${data.abbr}`]).then((succeeded) => {
-                    if (!succeeded) {
+                this.router.navigate(["selection", `abbr:${data.abbr}`]).then(
+                    nav => {
+
+                    }, err => {
                         this.filter.clear(false);
                         this.filter.teacher({teacher: data.surname + " " + data.name});
-                    }
-                });
+                    });
                 break;
             case "room":
-                this.router.navigate(["selection", `room:${data}`]).then((succeeded) => {
-                    if (!succeeded) {
+                this.router.navigate(["selection", `room:${data}`]).then(
+                    nav => {
+
+                    }, err => {
                         this.filter.clear(false);
                         this.filter.room({room: data});
-                    }
-                });
+                    });
                 break;
             case "class":
-                this.router.navigate(["selection", `class:${data}`]).then((succeeded) => {
-                    if (!succeeded) {
+                this.router.navigate(["selection", `class:${data}`]).then(
+                    nav => {
+
+                    },
+                    err => {
                         this.filter.clear(false);
                         this.filter.class({class: data});
-                    }
-                });
+                    });
+                ;
                 break;
         }
     }

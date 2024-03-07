@@ -1,4 +1,4 @@
-import {AfterViewInit, EventEmitter, Injectable} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {CalendarDataQuery} from "../calendar-data/calendar-data-query";
 import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 
@@ -117,8 +117,6 @@ export class CalendarFilterService {
                     hasChanged = true;
                 }
             }
-            if (hasChanged)
-                this.onChanged.emit();
         }
     }
 }
