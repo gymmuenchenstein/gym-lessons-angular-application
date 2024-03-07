@@ -3,12 +3,14 @@ import {NgbOffcanvas} from "@ng-bootstrap/ng-bootstrap";
 import {CalendarDataBrokerService} from "../../../services/calendar-data/calendar-data-broker.service";
 import {CalendarDataEntry} from "../../../services/calendar-data/data-entries/calendar-data-entry";
 import {FloorplanComponent} from "../floorplan-map/floorplan/floorplan.component";
+import {NgIf} from "@angular/common";
 
 @Component({
     selector: 'app-details',
     standalone: true,
     imports: [
-        FloorplanComponent
+        FloorplanComponent,
+        NgIf
     ],
     templateUrl: './details.component.html',
     styleUrl: './details.component.scss'
@@ -22,7 +24,9 @@ export class DetailsComponent implements AfterViewInit {
     classes: string = "";
     room: string = "";
 
-    constructor(private broker: CalendarDataBrokerService) {
+    displayFloorplan: boolean = false;
+
+    constructor(protected broker: CalendarDataBrokerService) {
         /*this.broker.onInitialized.subscribe(() => {
             this.broker.setSelectEntry(this.broker.query(false).day({day: 6, month: 2, year: 2024}).export()[0]);
         });*/
@@ -43,5 +47,8 @@ export class DetailsComponent implements AfterViewInit {
         }).join(", ");
         if (this.entry?.room != undefined)
             this.room = this.entry?.room;
+
+        console.log(this.room, this.room.toUpperCase().startsWith("U"), /^\d+/g.test(this.room));
+        this.displayFloorplan = this.room.toUpperCase().startsWith("U") || /^\d+/g.test(this.room);
     }
 }
