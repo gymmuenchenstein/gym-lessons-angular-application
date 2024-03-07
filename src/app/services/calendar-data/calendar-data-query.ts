@@ -189,7 +189,7 @@ export class CalendarDataQuery {
             });
             if (duplicate !== undefined) {
                 clean = clean.map((enteredEntry) => {
-                    if (enteredEntry.index == obj.index && enteredEntry.room == obj.room && enteredEntry.lesson == obj.lesson) {
+                    if (enteredEntry.index == obj.index && enteredEntry.room == obj.room && enteredEntry.lesson == obj.lesson && enteredEntry.datetime?.isSame(obj.datetime)) {
                         for (const classes of obj.classes) {
                             if (enteredEntry.classes.find((enteredClass) => {
                                 return enteredClass.full === classes.full
