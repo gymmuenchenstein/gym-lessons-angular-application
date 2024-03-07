@@ -1,10 +1,10 @@
-import { Component } from "@angular/core";
-import { NgClass, NgForOf, NgIf } from "@angular/common";
-import { CalendarDataBrokerService } from "../../../services/calendar-data/calendar-data-broker.service";
-import { CalendarDataEntry } from "../../../services/calendar-data/data-entries/calendar-data-entry";
-import { CalendarFilterService } from "../../../services/calendar-filter/calendar-filter.service";
+import {Component} from "@angular/core";
+import {NgClass, NgForOf, NgIf} from "@angular/common";
+import {CalendarDataBrokerService} from "../../../services/calendar-data/calendar-data-broker.service";
+import {CalendarDataEntry} from "../../../services/calendar-data/data-entries/calendar-data-entry";
+import {CalendarFilterService} from "../../../services/calendar-filter/calendar-filter.service";
 import dayjs from "dayjs";
-import { TimetableSlotComponent } from "./timetable-slot/timetable-slot.component";
+import {TimetableSlotComponent} from "./timetable-slot/timetable-slot.component";
 
 @Component({
     selector: "app-timetable",
@@ -30,31 +30,13 @@ export class TimetableComponent {
     /**
      * Constructor.
      */
-    constructor(protected broker: CalendarDataBrokerService,
-                protected filter: CalendarFilterService) {
-
-        /*
+    constructor(protected broker: CalendarDataBrokerService, protected filter: CalendarFilterService) {
         this.broker.onInitialized.subscribe(() => {
-                const data = this.broker.query()
-                    .week({year: 2024, month: 5, day: 13})
-                    .class({class: "M2g"})
-                this.data = data.export()
-            }
-        );
-
-         */
-
+            this.data = this.broker.query().week({year: 2024, month: 5, day: 13}).export();
+        })
         this.filter.onChanged.subscribe(() => {
-                const data = this.broker.query().week({year: 2024, month: 5, day: 13})
-                this.data = data.export();
-            }
-        );
-
-        /*setTimeout(() => {
-            this.filter.teacher({teacher: "Steiner Janik"})
-        }, 1500)*
-
-         */
+            this.data = this.broker.query().week({year: 2024, month: 5, day: 13}).export();
+        });
     }
 
     /**
@@ -66,6 +48,3 @@ export class TimetableComponent {
     }
 
 }
-
-
-

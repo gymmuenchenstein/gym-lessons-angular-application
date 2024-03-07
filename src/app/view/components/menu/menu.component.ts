@@ -9,6 +9,7 @@ import {CalendarDataBrokerService} from "../../../services/calendar-data/calenda
 import {AccordionComponent, AccordionData} from "../accordion/accordion.component";
 import {MenuService} from "../../../model/services/menu.service";
 import {CalendarFilterService} from "../../../services/calendar-filter/calendar-filter.service";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -153,7 +154,8 @@ export class MenuComponent {
 
     constructor(private broker: CalendarDataBrokerService,
                 private filter: CalendarFilterService,
-                protected menuService: MenuService) {
+                protected menuService: MenuService,
+                private router: Router) {
 
         this.broker.onInitialized.subscribe(() => {
 
@@ -249,16 +251,28 @@ export class MenuComponent {
     private openTimetable(type: "teacher" | "room" | "class", data: any): void {
         switch (type) {
             case "teacher":
-                this.filter.clear(false);
-                this.filter.teacher({teacher: data.surname + " " + data.name});
+                this.router.navigate(["selection", `abbr:${data.abbr}`]).then((succeeded) => {
+                    if (!succeeded) {
+                        this.filter.clear(false);
+                        this.filter.teacher({teacher: data.surname + " " + data.name});
+                    }
+                });
                 break;
             case "room":
-                this.filter.clear(false);
-                this.filter.room({room: data});
+                this.router.navigate(["selection", `room:${data}`]).then((succeeded) => {
+                    if (!succeeded) {
+                        this.filter.clear(false);
+                        this.filter.room({room: data});
+                    }
+                });
                 break;
             case "class":
-                this.filter.clear(false);
-                this.filter.class({class: data});
+                this.router.navigate(["selection", `class:${data}`]).then((succeeded) => {
+                    if (!succeeded) {
+                        this.filter.clear(false);
+                        this.filter.class({class: data});
+                    }
+                });
                 break;
         }
     }

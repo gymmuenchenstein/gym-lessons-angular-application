@@ -1,14 +1,23 @@
-import {EventEmitter, Injectable} from '@angular/core';
+import {AfterViewInit, EventEmitter, Injectable} from '@angular/core';
 import {CalendarDataQuery} from "../calendar-data/calendar-data-query";
+import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 
 @Injectable({
     providedIn: 'root'
 })
 export class CalendarFilterService {
 
-    private currentFilterSequence: { [key: string]: any } = {}
+    currentFilterSequence: { [key: string]: any } = {}
 
     onChanged: EventEmitter<void> = new EventEmitter();
+
+    constructor(private router: Router, private route: ActivatedRoute) {
+        this.router.events.subscribe((event) => {
+            if (event instanceof NavigationEnd) {
+                this.parseRoute();
+            }
+        });
+    }
 
     day(args: { year: number, month: number, day: number }, callChanged = true) {
         this.currentFilterSequence['day'] = args;
@@ -80,5 +89,36 @@ export class CalendarFilterService {
             }
         }
         return query
+    }
+
+    private parseRoute() {
+        const filter = this.route.firstChild?.snapshot.paramMap.get("filter");
+        let hasChanged = false;
+        if (filter != null) {
+            for (const keyvalueEntry of filter.split(",")) {
+                const keyvalue = keyvalueEntry.split(":");
+                if (keyvalue[0] == "class") {
+                    this.class({class: keyvalue[1]}, false);
+                    hasChanged = true;
+                } else if (keyvalue[0] == "abbr") {
+                    this.abbr({abbr: keyvalue[1]}, false);
+                    hasChanged = true;
+                } else if (keyvalue[0] == "lesson") {
+                    this.lesson({lesson: keyvalue[1]}, false);
+                    hasChanged = true;
+                } else if (keyvalue[0] == "abbr") {
+                    this.abbr({abbr: keyvalue[1]}, false);
+                    hasChanged = true;
+                } else if (keyvalue[0] == "room") {
+                    this.room({room: keyvalue[1]}, false);
+                    hasChanged = true;
+                } else if (keyvalue[0] == "teacher") {
+                    this.teacher({teacher: keyvalue[1]}, false);
+                    hasChanged = true;
+                }
+            }
+            if (hasChanged)
+                this.onChanged.emit();
+        }
     }
 }
