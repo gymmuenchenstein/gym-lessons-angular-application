@@ -38,7 +38,7 @@ export class DetailsComponent implements AfterViewInit {
         this.time = this.entry?.datetime?.format("HH:mm") + " - " + this.entry?.datetime?.add(this.entry?.duration != undefined ? this.entry?.duration : { minutes: 45 }).format("HH:mm");
         this.date = "" + this.entry?.datetime?.format("ddd DD.MM.YYYY");
         this.teachers = "" + this.entry?.teachers.map(el => {
-            return el.surname + " " + el.name + " (" + el.abbr + ")";
+            return el.surname != undefined && el.name != undefined ? el.surname + " " + el.name + " (" + el.abbr + ")" : el.abbr;
         }).join(", ");
         this.classes = "" + this.entry?.classes.map(el => {
             return el.full;
