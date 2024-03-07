@@ -18,6 +18,7 @@ export class DetailsComponent implements AfterViewInit {
 
     entry: CalendarDataEntry | undefined;
     time: string = "";
+    date: string = "";
     teachers: string = "";
     classes: string = "";
     room: string = "";
@@ -34,7 +35,8 @@ export class DetailsComponent implements AfterViewInit {
 
     updateValues() {
         this.entry = this.broker.getSelectEntry();
-        this.time = this.entry?.datetime?.hour() + ":" + this.entry?.datetime?.minute() + " - " + this.entry?.datetime?.add(this.entry?.duration != undefined ? this.entry?.duration : { minutes: 45 }).hour() + ":" + this.entry?.datetime?.add(this.entry?.duration != undefined ? this.entry?.duration : { minutes: 45 }).minute();
+        this.time = this.entry?.datetime?.format("HH:mm") + " - " + this.entry?.datetime?.add(this.entry?.duration != undefined ? this.entry?.duration : { minutes: 45 }).format("HH:mm");
+        this.date = "" + this.entry?.datetime?.format("ddd DD.MM.YYYY");
         this.teachers = "" + this.entry?.teachers.map(el => {
             return el.surname + " " + el.name + " (" + el.abbr + ")";
         }).join(", ");
