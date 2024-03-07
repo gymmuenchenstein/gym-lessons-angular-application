@@ -13,4 +13,4 @@
         Klassen: {{ classes }}<br>
     </p>
 </div>
-<app-floorplan [selectedRoom]="room" class="floorplan"></app-floorplan>
+<app-floorplan [selectedRoom]="room" class="floorplan" *ngIf="displayFloorplan"></app-floorplan>
