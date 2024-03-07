@@ -11,10 +11,11 @@
                           centered-slides="true">
             @for (entry of calendarDataEntries; track entry.id) {
                 <swiper-slide>
-                    <div class="lesson" (click)="openDetails(entry)">
+                    <div class="lesson" (click)="openDetails(entry)" >
                         <div class="title">{{ entry.lesson.short }}</div>
-                        <div class="details">{{ getTeachersString(entry) }} | {{ entry.room }}</div>
-                    </div>
+                        <div class="details" *ngIf="displayType == 0">{{ getTeachersString(entry) }} | {{ entry.room }}</div>
+                        <div class="details" *ngIf="displayType == 1">{{ getClassString(entry) }} | {{ entry.room }}</div>
+                        <div class="details" *ngIf="displayType == 2">{{ getTeachersString(entry) }} | {{ getClassString(entry) }}</div>
                 </swiper-slide>
             }
         </swiper-container>

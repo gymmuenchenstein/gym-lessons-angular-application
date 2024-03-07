@@ -6,7 +6,7 @@ import {CalendarDataQuery} from "../calendar-data/calendar-data-query";
 })
 export class CalendarFilterService {
 
-    private currentFilterSequence: { [key: string]: any } = {}
+    currentFilterSequence: { [key: string]: any } = {}
 
     onChanged: EventEmitter<void> = new EventEmitter();
 

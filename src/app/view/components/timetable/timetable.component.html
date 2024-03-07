@@ -32,7 +32,7 @@
 
                         @if (getCalendarDataEntries(timeIndex, dayIndex); as calendarDataEntries) {
                             @if (calendarDataEntries.length > 0) {
-                                <app-timetable-slot [calendarDataEntries]="getCalendarDataEntries(timeIndex, dayIndex)"></app-timetable-slot>
+                                <app-timetable-slot [calendarDataEntries]="getCalendarDataEntries(timeIndex, dayIndex)" [displayType]="lessonDisplayType"></app-timetable-slot>
                             }
                         }
 
