@@ -48,7 +48,6 @@ export class DetailsComponent implements AfterViewInit {
         if (this.entry?.room != undefined)
             this.room = this.entry?.room;
 
-        console.log(this.room, this.room.toUpperCase().startsWith("U"), /^\d+/g.test(this.room));
         this.displayFloorplan = this.room.toUpperCase().startsWith("U") || /^\d+/g.test(this.room);
     }
 }
