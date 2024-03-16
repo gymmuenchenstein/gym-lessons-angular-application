@@ -5,6 +5,8 @@ import { CalendarDataEntry } from "../../../services/calendar-data/data-entries/
 import { CalendarFilterService } from "../../../services/calendar-filter/calendar-filter.service";
 import dayjs from "dayjs";
 import { TimetableSlotComponent } from "./timetable-slot/timetable-slot.component";
+import { NgbDatepicker, NgbInputDatepicker } from "@ng-bootstrap/ng-bootstrap";
+import { FormsModule } from "@angular/forms";
 
 @Component({
     selector: "app-timetable",
@@ -13,7 +15,10 @@ import { TimetableSlotComponent } from "./timetable-slot/timetable-slot.componen
         NgForOf,
         NgClass,
         NgIf,
-        TimetableSlotComponent
+        TimetableSlotComponent,
+        NgbDatepicker,
+        FormsModule,
+        NgbInputDatepicker
     ],
     templateUrl: "./timetable.component.html",
     styleUrl: "./timetable.component.scss"
@@ -22,10 +27,12 @@ import { TimetableSlotComponent } from "./timetable-slot/timetable-slot.componen
 export class TimetableComponent {
 
     protected readonly dayjs = dayjs;
-    protected readonly days: number[] = [1, 2, 3, 4, 5];
+    protected readonly days: number[] = [1, 2, 3, 4, 5, 6, 7];
     protected readonly lessonTimes: string[] = ["8:00", "8:55", "10:00", "10:55", "11:50", "12:45", "13:40", "14:35", "15:30", "16:25", "17:20", "18:05"];
 
     protected data: CalendarDataEntry[] = [];
+
+    protected selectedDate: dayjs.Dayjs = dayjs().add(3, "day");
 
     /**
      * Constructor.
@@ -33,28 +40,15 @@ export class TimetableComponent {
     constructor(protected broker: CalendarDataBrokerService,
                 protected filter: CalendarFilterService) {
 
-        /*
-        this.broker.onInitialized.subscribe(() => {
-                const data = this.broker.query()
-                    .week({year: 2024, month: 5, day: 13})
-                    .class({class: "M2g"})
-                this.data = data.export()
-            }
-        );
-
-         */
-
         this.filter.onChanged.subscribe(() => {
-                const data = this.broker.query().week({year: 2024, month: 5, day: 13})
+                const data = this.broker.query().week({
+                    year: this.selectedDate.year(),
+                    month: this.selectedDate.month() + 1,
+                    day: this.selectedDate.date()
+                });
                 this.data = data.export();
             }
         );
-
-        /*setTimeout(() => {
-            this.filter.teacher({teacher: "Steiner Janik"})
-        }, 1500)*
-
-         */
     }
 
     /**
@@ -63,6 +57,60 @@ export class TimetableComponent {
      */
     protected getCalendarDataEntries(lessonIndex: number, dayIndex: number): CalendarDataEntry[] {
         return this.data.filter(lesson => lesson.index == lessonIndex + 1 && lesson.datetime?.day() == dayIndex + 1);
+    }
+
+    /**
+     * Navigate an amount of days in the calendar.
+     * @param days
+     * @protected
+     */
+    protected navigateDays(days: number): void {
+
+        this.selectedDate = dayjs(this.selectedDate).add(days, "day");
+
+        if (this.filter.hasCurrentFilter()) {
+            this.filter.week({
+                year: this.selectedDate.year(),
+                month: this.selectedDate.month() + 1,
+                day: this.selectedDate.date()
+            });
+        }
+
+    }
+
+    /**
+     * Gets the CSS class that determines whether the day should be shown or not.
+     */
+    protected getDayCssClass(dayIndex: number): string {
+
+        if (this.selectedDate.isSame(this.selectedDate.startOf("week").add(dayIndex, "days"), "date")) {
+            if (dayIndex >= 5) {
+                return "d-md-none"
+            } else {
+                return "";
+            }
+        } else {
+            if (dayIndex >= 5) {
+                return "d-none";
+            } else {
+                return "d-none d-md-block";
+            }
+        }
+
+    }
+
+    /**
+     * Opens the print dialog.
+     */
+    protected printPage() {
+        window.print();
+    }
+
+    /**
+     * Copies the current URL to the clipboard.
+     */
+    protected copyUrl() {
+        navigator.clipboard.writeText(window.location.href);
     }
 
 }

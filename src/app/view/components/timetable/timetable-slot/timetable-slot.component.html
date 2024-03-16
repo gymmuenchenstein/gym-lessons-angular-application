@@ -12,7 +12,7 @@
             @for (entry of calendarDataEntries; track entry.id) {
                 <swiper-slide>
                     <div class="lesson" (click)="openDetails(entry)">
-                        <div class="title">{{ entry.lesson.short }}</div>
+                        <div class="title">{{ entry.lesson.short || "" }}</div>
                         <div class="details">{{ getTeachersString(entry) }} | {{ entry.room }}</div>
                     </div>
                 </swiper-slide>
