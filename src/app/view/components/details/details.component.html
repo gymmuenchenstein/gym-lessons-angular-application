@@ -1,4 +1,4 @@
-<div class="offcanvas-header">
+<div class="offcanvas-header" xmlns="http://www.w3.org/1999/html">
     <h4 class="offcanvas-title">
         {{ entry?.lesson?.full }}
         {{ entry?.lesson?.full !== entry?.lesson?.short ? "(" + entry?.lesson?.short + ")" : "" }}
@@ -7,10 +7,20 @@
             (click)="offcanvasService.dismiss('Cross click')"></button>
 </div>
 <div class="offcanvas-body noscroll">
-    <p> Zimmer: {{ entry?.room }}<br>
-        Zeit: {{ time }}<br>
-        Lehrpersonen: {{ teachers }}<br>
-        Klassen: {{ classes }}<br>
-    </p>
+    <div class="keyvalueset">
+        <p class="key">Zimmer:</p> <p class="value">{{ entry?.room }}</p>
+    </div>
+    <div class="keyvalueset">
+        <p class="key">Zeit:</p> <p class="value">{{ time }}</p>
+    </div>
+    <div class="keyvalueset">
+        <p class="key">Datum:</p> <p class="value">{{ date }}</p>
+    </div>
+    <div class="keyvalueset">
+        <p class="key">Lehrpersonen:</p> <p class="value">{{ teachers }}</p>
+    </div>
+    <div class="keyvalueset">
+        <p class="key">Klassen:</p> <p class="value">{{ classes }}</p>
+    </div>
 </div>
 <app-floorplan [selectedRoom]="room" class="floorplan" *ngIf="displayFloorplan"></app-floorplan>
