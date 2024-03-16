@@ -65,12 +65,17 @@ export class TimetableComponent {
      * @protected
      */
     protected navigateDays(days: number): void {
+
         this.selectedDate = dayjs(this.selectedDate).add(days, "day");
-        this.filter.week({
-            year: this.selectedDate.year(),
-            month: this.selectedDate.month() + 1,
-            day: this.selectedDate.date()
-        });
+
+        if (this.filter.hasCurrentFilter()) {
+            this.filter.week({
+                year: this.selectedDate.year(),
+                month: this.selectedDate.month() + 1,
+                day: this.selectedDate.date()
+            });
+        }
+
     }
 
     /**
@@ -97,14 +102,14 @@ export class TimetableComponent {
     /**
      * Opens the print dialog.
      */
-    printPage() {
+    protected printPage() {
         window.print();
     }
 
     /**
      * Copies the current URL to the clipboard.
      */
-    copyUrl() {
+    protected copyUrl() {
         navigator.clipboard.writeText(window.location.href);
     }
 
