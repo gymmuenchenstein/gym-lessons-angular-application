@@ -5,7 +5,7 @@ import { CalendarDataEntry } from "../../../services/calendar-data/data-entries/
 import { CalendarFilterService } from "../../../services/calendar-filter/calendar-filter.service";
 import dayjs from "dayjs";
 import { TimetableSlotComponent } from "./timetable-slot/timetable-slot.component";
-import { NgbDatepicker, NgbInputDatepicker } from "@ng-bootstrap/ng-bootstrap";
+import { NgbDatepicker, NgbDateStruct, NgbInputDatepicker } from "@ng-bootstrap/ng-bootstrap";
 import { FormsModule } from "@angular/forms";
 import { merge } from "rxjs";
 
@@ -43,7 +43,6 @@ export class TimetableComponent implements OnInit {
      */
     constructor(protected broker: CalendarDataBrokerService,
                 protected filter: CalendarFilterService) {
-        // this.selectedDate = dayjs(this.filter.currentFilterSequence);
     }
 
     /**
@@ -59,13 +58,20 @@ export class TimetableComponent implements OnInit {
      * Updates the calendar data.
      */
     private updateData(): void {
-        this.updateLessonDisplayType();
-        const data = this.broker.query().week({
-            year: this.selectedDate.year(),
-            month: this.selectedDate.month() + 1,
-            day: this.selectedDate.date()
-        });
-        this.data = data.export();
+
+        // Make sure a filter is set, otherwise we would load all data
+        if (this.filter.hasCurrentFilter()) {
+            this.updateLessonDisplayType();
+            const data = this.broker.query().week({
+                year: this.selectedDate.year(),
+                month: this.selectedDate.month() + 1,
+                day: this.selectedDate.date()
+            });
+            this.data = data.export();
+        } else {
+            this.data = [];
+        }
+
     }
 
     /**

@@ -25,7 +25,14 @@ export class CalendarFilterService {
     }
 
     private saveToStorage(): void {
-        localStorage.setItem(CalendarFilterService.STORAGE_KEY, JSON.stringify(this.currentFilterSequence));
+
+        const obj: any = JSON.parse(JSON.stringify(this.currentFilterSequence));
+        delete obj["month"];
+        delete obj["week"];
+        delete obj["day"];
+
+        localStorage.setItem(CalendarFilterService.STORAGE_KEY, JSON.stringify(obj));
+
     }
 
     day(args: { year: number, month: number, day: number }, callChanged = true): CalendarFilterService {
