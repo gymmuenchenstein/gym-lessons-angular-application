@@ -1,12 +1,13 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { NgClass, NgForOf, NgIf } from "@angular/common";
 import { CalendarDataBrokerService } from "../../../services/calendar-data/calendar-data-broker.service";
 import { CalendarDataEntry } from "../../../services/calendar-data/data-entries/calendar-data-entry";
 import { CalendarFilterService } from "../../../services/calendar-filter/calendar-filter.service";
 import dayjs from "dayjs";
 import { TimetableSlotComponent } from "./timetable-slot/timetable-slot.component";
-import { NgbDatepicker, NgbInputDatepicker } from "@ng-bootstrap/ng-bootstrap";
+import { NgbDatepicker, NgbDateStruct, NgbInputDatepicker } from "@ng-bootstrap/ng-bootstrap";
 import { FormsModule } from "@angular/forms";
+import { merge } from "rxjs";
 
 @Component({
     selector: "app-timetable",
@@ -24,7 +25,7 @@ import { FormsModule } from "@angular/forms";
     styleUrl: "./timetable.component.scss"
 })
 
-export class TimetableComponent {
+export class TimetableComponent implements OnInit {
 
     protected readonly dayjs = dayjs;
     protected readonly days: number[] = [1, 2, 3, 4, 5, 6, 7];
@@ -32,26 +33,58 @@ export class TimetableComponent {
 
     protected data: CalendarDataEntry[] = [];
 
-    protected selectedDate: dayjs.Dayjs = dayjs().add(3, "day");
+    protected selectedDate: dayjs.Dayjs = dayjs();
 
     // -1 nothing selected or invalid, 0 class selected, 1 teacher selected, 2 room selected
     protected lessonDisplayType: number = -1;
-    
+
     /**
      * Constructor.
      */
     constructor(protected broker: CalendarDataBrokerService,
                 protected filter: CalendarFilterService) {
+    }
 
-        this.filter.onChanged.subscribe(() => {
-                const data = this.broker.query().week({
-                    year: this.selectedDate.year(),
-                    month: this.selectedDate.month() + 1,
-                    day: this.selectedDate.date()
-                });
-                this.data = data.export();
-            }
-        );
+    /**
+     * NgOnInit.
+     */
+    ngOnInit(): void {
+        merge(this.filter.onChanged, this.broker.onInitialized).subscribe((_) => {
+            this.updateData();
+        });
+    }
+
+    /**
+     * Updates the calendar data.
+     */
+    private updateData(): void {
+
+        // Make sure a filter is set, otherwise we would load all data
+        if (this.filter.hasCurrentFilter()) {
+            this.updateLessonDisplayType();
+            const data = this.broker.query().week({
+                year: this.selectedDate.year(),
+                month: this.selectedDate.month() + 1,
+                day: this.selectedDate.date()
+            });
+            this.data = data.export();
+        } else {
+            this.data = [];
+        }
+
+    }
+
+    /**
+     * Updates the lesson display type.
+     */
+    protected updateLessonDisplayType(): void {
+        if (Object.keys(this.filter.currentFilterSequence).includes("class")) {
+            this.lessonDisplayType = 0;
+        } else if (Object.keys(this.filter.currentFilterSequence).includes("teacher") || Object.keys(this.filter.currentFilterSequence).includes("abbr")) {
+            this.lessonDisplayType = 1;
+        } else if (Object.keys(this.filter.currentFilterSequence).includes("room")) {
+            this.lessonDisplayType = 2;
+        }
     }
 
     /**

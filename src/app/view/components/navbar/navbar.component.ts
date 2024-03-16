@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {MenuService} from "../../../model/services/menu.service";
+import { CalendarFilterService } from "../../../services/calendar-filter/calendar-filter.service";
 
 @Component({
     selector: 'app-navbar',
@@ -10,7 +11,8 @@ import {MenuService} from "../../../model/services/menu.service";
 })
 export class NavbarComponent {
 
-    constructor(protected menuService: MenuService) {
+    constructor(protected menuService: MenuService,
+                protected calendarFilterService: CalendarFilterService) {
     }
 
 }

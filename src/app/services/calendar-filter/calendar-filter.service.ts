@@ -1,85 +1,102 @@
-import {EventEmitter, Injectable} from '@angular/core';
-import {CalendarDataQuery} from "../calendar-data/calendar-data-query";
+import { EventEmitter, Injectable } from "@angular/core";
+import { CalendarDataQuery } from "../calendar-data/calendar-data-query";
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: "root"
 })
 export class CalendarFilterService {
 
-    currentFilterSequence: { [key: string]: any } = {}
+    private static readonly STORAGE_KEY = "CALENDAR_FILTER";
+
+    currentFilterSequence: { [key: string]: any } = {};
 
     onChanged: EventEmitter<void> = new EventEmitter();
 
-    day(args: { year: number, month: number, day: number }, callChanged = true) {
-        this.currentFilterSequence['day'] = args;
-        if (callChanged)
-            this.onChanged.emit();
-        return this;
+    constructor() {
+        this.getFromStorage();
     }
 
-    week(args: { year: number, month: number, day: number }, callChanged = true) {
-        this.currentFilterSequence['week'] = args;
-        if (callChanged)
+    private getFromStorage(): void {
+        const s = localStorage.getItem(CalendarFilterService.STORAGE_KEY);
+        if (s) {
+            this.currentFilterSequence = JSON.parse(s);
             this.onChanged.emit();
-        return this;
+        }
     }
 
-    month(args: { year: number, month: number }, callChanged = true) {
-        this.currentFilterSequence['month'] = args;
-        if (callChanged)
-            this.onChanged.emit();
-        return this;
+    private saveToStorage(): void {
+
+        const obj: any = JSON.parse(JSON.stringify(this.currentFilterSequence));
+        delete obj["month"];
+        delete obj["week"];
+        delete obj["day"];
+
+        localStorage.setItem(CalendarFilterService.STORAGE_KEY, JSON.stringify(obj));
+
     }
 
-    class(args: { class: string }, callChanged = true) {
-        this.currentFilterSequence['class'] = args;
-        if (callChanged)
-            this.onChanged.emit();
-        return this;
+    day(args: { year: number, month: number, day: number }, callChanged = true): CalendarFilterService {
+        return this.changeFilter("day", args, callChanged);
     }
 
-    abbr(args: { abbr: string }, callChanged = true) {
-        this.currentFilterSequence['abbr'] = args;
-        if (callChanged)
-            this.onChanged.emit();
-        return this;
+    week(args: { year: number, month: number, day: number }, callChanged = true): CalendarFilterService {
+        return this.changeFilter("week", args, callChanged);
     }
 
-    lesson(args: { lesson: string }, callChanged = true) {
-        this.currentFilterSequence['lesson'] = args;
-        if (callChanged)
-            this.onChanged.emit();
-        return this;
+    month(args: { year: number, month: number }, callChanged = true): CalendarFilterService {
+        return this.changeFilter("month", args, callChanged);
     }
 
-    room(args: { room: string }, callChanged = true) {
-        this.currentFilterSequence['room'] = args;
-        if (callChanged)
-            this.onChanged.emit();
-        return this;
+    class(args: { class: string }, callChanged = true): CalendarFilterService {
+        return this.changeFilter("class", args, callChanged);
     }
 
-    teacher(args: { teacher: string }, callChanged = true) {
-        this.currentFilterSequence['teacher'] = args;
-        if (callChanged)
+    abbr(args: { abbr: string }, callChanged = true): CalendarFilterService {
+        return this.changeFilter("abbr", args, callChanged);
+    }
+
+    lesson(args: { lesson: string }, callChanged = true): CalendarFilterService {
+        return this.changeFilter("lesson", args, callChanged);
+    }
+
+    room(args: { room: string }, callChanged = true): CalendarFilterService {
+        return this.changeFilter("room", args, callChanged);
+    }
+
+    teacher(args: { teacher: string }, callChanged = true): CalendarFilterService {
+        return this.changeFilter("teacher", args, callChanged);
+    }
+
+    /**
+     * Changes the current filter.
+     */
+    private changeFilter(property: string, value: any, callChanged: boolean = true): CalendarFilterService {
+
+        this.currentFilterSequence[property] = value;
+        this.saveToStorage();
+
+        if (callChanged) {
             this.onChanged.emit();
+        }
+
         return this;
+
     }
 
     clear(callChanged = true) {
-        this.currentFilterSequence = {}
+        this.currentFilterSequence = {};
         if (callChanged)
             this.onChanged.emit();
         return this;
     }
 
-    filter(query: CalendarDataQuery) {
+    filter(query: CalendarDataQuery): CalendarDataQuery {
         for (const [key, args] of Object.entries(this.currentFilterSequence)) {
             if ((query as any)[key]) {
                 (query as any)[key](args);
             }
         }
-        return query
+        return query;
     }
 
     /**
@@ -87,6 +104,21 @@ export class CalendarFilterService {
      */
     hasCurrentFilter(): boolean {
         return Object.keys(this.currentFilterSequence).length > 0;
+    }
+
+    /**
+     * Gets the current filter name.
+     */
+    getCurrentFilterName(): string {
+
+        if (!this.hasCurrentFilter()) {
+            return "";
+        }
+
+        const a = this.currentFilterSequence[Object.keys(this.currentFilterSequence)[0]];
+        const b = a ? a[Object.keys(this.currentFilterSequence)[0]] : "";
+        return b || "";
+
     }
 
 }
