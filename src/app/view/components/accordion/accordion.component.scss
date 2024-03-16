@@ -1,6 +1,8 @@
+@import "../../../../variables";
+
 .item-with-children {
     cursor: pointer;
-    border: 1px solid #CCC;
+    border: 1px solid $gray-400;
     border-radius: 0.25rem;
     padding: 0.5rem 1rem;
     margin-bottom: 0.5rem;
@@ -21,9 +23,10 @@
 
 .item-without-children {
     cursor: pointer;
-    border-top: 1px solid #CCC;
-    border-left: 1px solid #CCC;
-    border-right: 1px solid #CCC;
+    background-color: $accent-color;
+    border-top: 1px solid $gray-500;
+    border-left: 1px solid $gray-500;
+    border-right: 1px solid $gray-500;
     padding: 0.5rem 1rem;
 
     &.first {
@@ -35,11 +38,11 @@
         border-bottom-left-radius: 0.25rem;
         border-bottom-right-radius: 0.25rem;
         margin-bottom: 0.5rem;
-        border-bottom: 1px solid #CCC;
+        border-bottom: 1px solid $gray-500;
     }
 
     &:hover {
-        background-color: #EEE;
+        background: $accent-color-hover;
     }
 }
 
