@@ -6,21 +6,26 @@
     <button type="button" class="btn-close" aria-label="Close"
             (click)="offcanvasService.dismiss('Cross click')"></button>
 </div>
-<div class="offcanvas-body noscroll">
-    <div class="keyvalueset">
-        <p class="key">Zimmer:</p> <p class="value">{{ entry?.room }}</p>
+<div class="offcanvas-body">
+
+    <div>
+        <span class="text-muted small me-2">Zimmer:</span><span>{{ entry?.room }}</span>
     </div>
-    <div class="keyvalueset">
-        <p class="key">Zeit:</p> <p class="value">{{ time }}</p>
+    <div>
+        <span class="text-muted small me-2">Zeit:</span><span>{{ time }}</span>
     </div>
-    <div class="keyvalueset">
-        <p class="key">Datum:</p> <p class="value">{{ date }}</p>
+    <div>
+        <span class="text-muted small me-2">Datum:</span><span>{{ date }}</span>
     </div>
-    <div class="keyvalueset">
-        <p class="key">Lehrpersonen:</p> <p class="value">{{ teachers }}</p>
+    <div>
+        <span class="text-muted small me-2">Lehrpersonen:</span><span>{{ teachers }}</span>
     </div>
-    <div class="keyvalueset">
-        <p class="key">Klassen:</p> <p class="value">{{ classes }}</p>
+    <div>
+        <span class="text-muted small me-2">Klassen:</span><span>{{ classes }}</span>
     </div>
+
+    <div class="overflow-x-hidden">
+        <app-floorplan [selectedRoom]="room" class="floorplan" *ngIf="displayFloorplan"></app-floorplan>
+    </div>
+
 </div>
-<app-floorplan [selectedRoom]="room" class="floorplan" *ngIf="displayFloorplan"></app-floorplan>
