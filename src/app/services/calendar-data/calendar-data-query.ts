@@ -5,11 +5,13 @@ import {RawTeacherDataEntry} from "./data-entries/raw-teacher-data-entry";
 import dayjs from "dayjs";
 import dayjsObjectSupport from "dayjs/plugin/objectSupport";
 import dayjsDuration from "dayjs/plugin/duration";
+import weekOfYear from "dayjs/plugin/weekOfYear";
 import {CalendarFilterService} from "../calendar-filter/calendar-filter.service";
 import {RawLessonDataEntry} from "./data-entries/raw-lesson-data-entry";
 
 dayjs.extend(dayjsObjectSupport);
 dayjs.extend(dayjsDuration);
+dayjs.extend(weekOfYear);
 
 export class CalendarDataQuery {
 
@@ -148,23 +150,18 @@ export class CalendarDataQuery {
 
         let obj: CalendarDataEntry;
         for (const entry of this.raw) {
-            const teacher = this.teachers.filter((teacher) => {
+            const teachers: RawTeacherDataEntry[] = this.teachers.filter((teacher) => {
                 return teacher.abbr == entry.abbr
-            })[0];
-            const lesson = this.lessons.filter((lesson) => {
+            });
+            const lesson: RawLessonDataEntry | undefined = this.lessons.filter((lesson) => {
                 return lesson.short == entry.lesson
             })[0];
             obj = {
                 id: entry.id,
                 index: entry.index,
-                teachers: [{
-                    id: teacher?.id,
-                    surname: teacher?.surname,
-                    name: teacher?.name,
-                    abbr: entry.abbr
-                }],
+                teachers: teachers,
                 room: entry.room,
-                lesson: lesson,
+                lesson: lesson || { full: "", short: "" },
                 classes: [{
                     full: entry.class,
                     department: {
@@ -189,7 +186,7 @@ export class CalendarDataQuery {
             });
             if (duplicate !== undefined) {
                 clean = clean.map((enteredEntry) => {
-                    if (enteredEntry.index == obj.index && enteredEntry.room == obj.room && enteredEntry.lesson == obj.lesson) {
+                    if (enteredEntry.index == obj.index && enteredEntry.room == obj.room && enteredEntry.lesson == obj.lesson && enteredEntry.datetime?.isSame(obj.datetime)) {
                         for (const classes of obj.classes) {
                             if (enteredEntry.classes.find((enteredClass) => {
                                 return enteredClass.full === classes.full

@@ -81,4 +81,12 @@ export class CalendarFilterService {
         }
         return query
     }
+
+    /**
+     * Checks if there is a current filter.
+     */
+    hasCurrentFilter(): boolean {
+        return Object.keys(this.currentFilterSequence).length > 0;
+    }
+
 }
