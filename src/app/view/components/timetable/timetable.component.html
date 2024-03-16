@@ -1,27 +1,47 @@
-<form class="row row-cols-sm-auto">
-    <div class="col-12">
-        <div class="input-group">
-            <input
-                class="form-control"
-                placeholder="yyyy-mm-dd"
-                name="d2"
-                #c2="ngModel"
-                [(ngModel)]="model"
-                ngbDatepicker
-                #d2="ngbDatepicker"
-                (ngModelChange)="changedDate()"
-            />
-            <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d2.toggle()" type="button"></button>
+<div class="row gy-3 mt-3 mb-3">
+
+    <div class="col-12 d-md-none text-center">
+
+        <div class="btn-group">
+            <button type="button" class="btn btn-outline-secondary" (click)="navigateDays(-1)">
+                <i class="bi bi-chevron-left"></i>
+            </button>
+            <button type="button" class="btn btn-dark">
+                {{ selectedDate.format("DD.MM.YYYY") }}
+            </button>
+            <button type="button" class="btn btn-outline-secondary" (click)="navigateDays(1)">
+                <i class="bi bi-chevron-right"></i>
+            </button>
         </div>
+
     </div>
-</form>
+
+    <div class="offset-2 col-8 d-none d-md-block text-center">
+
+        <div class="btn-group">
+            <button type="button" class="btn btn-outline-secondary" (click)="navigateDays(-7)">
+                <i class="bi bi-chevron-left"></i>
+            </button>
+            <button type="button" class="btn btn-dark">
+                Kalenderwoche {{ selectedDate.week() }}
+                ({{ selectedDate.startOf("week").format("DD.MM.") }} –
+                {{ selectedDate.endOf("week").format("DD.MM.YYYY") }})
+            </button>
+            <button type="button" class="btn btn-outline-secondary" (click)="navigateDays(7)">
+                <i class="bi bi-chevron-right"></i>
+            </button>
+        </div>
+
+    </div>
+
+</div>
 
 <div class="timetable">
 
     <div class="row g-0">
 
         <!-- Lesson times -->
-        <div class="col-1">
+        <div class="col-4 col-md-1">
 
             <div class="slot border-bottom border-end"></div>
 
@@ -37,12 +57,12 @@
         <!-- All days that are displayed -->
         @for (day of days; track day; let dayIndex = $index) {
 
-            <div class="col-2">
+            <div class="col-8 col-md-2" [ngClass]="getDayCssClass(dayIndex)">
 
-                <div class="slot fs-4 border-bottom"
+                <div class="slot fs-5 border-bottom"
                      [ngClass]="dayIndex < days.length - 1 ? 'border-end' : ''">
                     {{ dayjs().startOf("week").add(dayIndex, "days").format("dddd") }}
-                    <p class="small-date-text">{{ dayjs(model).startOf("week").add(dayIndex, "days").format("DD.MM.YYYY") }}</p>
+                    <p class="small-date-text">{{ dayjs(selectedDate).startOf("week").add(dayIndex, "days").format("DD.MM.YYYY") }}</p>
                 </div>
 
                 @for (lessonTime of lessonTimes; track lessonTime; let timeIndex = $index) {
@@ -51,7 +71,8 @@
 
                         @if (getCalendarDataEntries(timeIndex, dayIndex); as calendarDataEntries) {
                             @if (calendarDataEntries.length > 0) {
-                                <app-timetable-slot [calendarDataEntries]="getCalendarDataEntries(timeIndex, dayIndex)"></app-timetable-slot>
+                                <app-timetable-slot
+                                    [calendarDataEntries]="getCalendarDataEntries(timeIndex, dayIndex)"></app-timetable-slot>
                             }
                         }
 

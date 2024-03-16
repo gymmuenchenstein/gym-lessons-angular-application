@@ -5,11 +5,13 @@ import {RawTeacherDataEntry} from "./data-entries/raw-teacher-data-entry";
 import dayjs from "dayjs";
 import dayjsObjectSupport from "dayjs/plugin/objectSupport";
 import dayjsDuration from "dayjs/plugin/duration";
+import weekOfYear from "dayjs/plugin/weekOfYear";
 import {CalendarFilterService} from "../calendar-filter/calendar-filter.service";
 import {RawLessonDataEntry} from "./data-entries/raw-lesson-data-entry";
 
 dayjs.extend(dayjsObjectSupport);
 dayjs.extend(dayjsDuration);
+dayjs.extend(weekOfYear);
 
 export class CalendarDataQuery {
 
