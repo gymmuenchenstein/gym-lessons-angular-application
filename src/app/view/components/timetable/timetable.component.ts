@@ -93,7 +93,21 @@ export class TimetableComponent {
         }
 
     }
+
+    /**
+     * Opens the print dialog.
+     */
+    printPage() {
+        window.print();
     }
+
+    /**
+     * Copies the current URL to the clipboard.
+     */
+    copyUrl() {
+        navigator.clipboard.writeText(window.location.href);
+    }
+
 }
 
 
