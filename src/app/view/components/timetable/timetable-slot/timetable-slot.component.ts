@@ -4,11 +4,14 @@ import { NgbOffcanvas } from "@ng-bootstrap/ng-bootstrap";
 import { DetailsComponent } from "../../details/details.component";
 import { CalendarDataBrokerService } from "../../../../services/calendar-data/calendar-data-broker.service";
 import { SwiperContainer } from "swiper/swiper-element";
+import {NgIf} from "@angular/common";
 
 @Component({
     selector: "app-timetable-slot[calendarDataEntries]",
     standalone: true,
-    imports: [],
+    imports: [
+        NgIf
+    ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     templateUrl: "./timetable-slot.component.html",
     styleUrl: "./timetable-slot.component.scss"
@@ -16,6 +19,7 @@ import { SwiperContainer } from "swiper/swiper-element";
 export class TimetableSlotComponent {
 
     @Input() calendarDataEntries: CalendarDataEntry[] = [];
+    @Input() displayType: number = -1;
 
     @ViewChild("swiperContainer", {static: false}) swiperContainer: ElementRef<SwiperContainer> | undefined;
 
@@ -51,6 +55,23 @@ export class TimetableSlotComponent {
         if (teachers.length === 1) {
             return teachers[0].abbr;
         } else if (teachers.length > 1) {
+            return "vd.";
+        } else {
+            return "–";
+        }
+
+    }
+
+    /**
+     * Gets the classes of a lesson.
+     * If there is more than one teacher, only the first one is shown.
+     */
+    protected getClassString(lesson: CalendarDataEntry): string {
+
+        const classes = lesson.classes;
+        if (classes.length === 1) {
+            return classes[0].full;
+        } else if (classes.length > 1) {
             return "vd.";
         } else {
             return "–";

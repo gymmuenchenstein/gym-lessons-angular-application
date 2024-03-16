@@ -34,6 +34,9 @@ export class TimetableComponent {
 
     protected selectedDate: dayjs.Dayjs = dayjs().add(3, "day");
 
+    // -1 nothing selected or invalid, 0 class selected, 1 teacher selected, 2 room selected
+    protected lessonDisplayType: number = -1;
+    
     /**
      * Constructor.
      */
