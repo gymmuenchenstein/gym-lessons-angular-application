@@ -36,8 +36,20 @@ export class CalendarDataBrokerService {
         var t = Date.now();
         this.config = await this.readConfig();
         this.teachers = await this.readTeachers("assets/" + this.config.dataPath + this.config.teachers.file, this.config.teachers.fields);
-        this.raw = await this.readAll(this.config.dataPath, this.config.entries.files, this.config.entries.fields);
-        await this.readLessons("assets/" + this.config.dataPath + this.config.lessons.file, this.config.lessons.fields);
+
+        this.raw = [];
+
+        let selectedRoute = "";
+        const plan = this.config.plans.find((value, index) => {
+            return value.route == "aktuell";
+        });
+        //@ts-ignore
+        for (const file of plan?.files) {
+            //@ts-ignore
+            const newRaw = await this.readAll(this.config.dataPath, [file?.path], file?.fields);
+            this.raw.push(...newRaw);
+        }
+        //await this.readLessons("assets/" + this.config.dataPath + this.config.lessons.file, this.config.lessons.fields);
         console.log(Date.now() - t);
     }
 
