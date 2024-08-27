@@ -10,7 +10,8 @@
     },
     "entries": {
         "files": [
-            "Semester 2.csv"
+            "Semester 2.1.csv",
+            "Semester 2.2.csv"
         ],
         "fields": ["abbr", "year", "month", "day", "index", "lesson", "class", "room", "", "", "", "time", "duration", ""]
     }

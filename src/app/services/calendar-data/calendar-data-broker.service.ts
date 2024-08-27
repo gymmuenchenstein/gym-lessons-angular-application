@@ -33,10 +33,12 @@ export class CalendarDataBrokerService {
     }
 
     private async init() {
+        var t = Date.now();
         this.config = await this.readConfig();
         this.teachers = await this.readTeachers("assets/" + this.config.dataPath + this.config.teachers.file, this.config.teachers.fields);
         this.raw = await this.readAll(this.config.dataPath, this.config.entries.files, this.config.entries.fields);
         await this.readLessons("assets/" + this.config.dataPath + this.config.lessons.file, this.config.lessons.fields);
+        console.log(Date.now() - t);
     }
 
     private async readConfig() {
@@ -82,7 +84,7 @@ export class CalendarDataBrokerService {
         return new Promise<RawCalendarDataEntry[]>(async (resolve) => {
             let data: RawCalendarDataEntry[] = [];
             for (const file of files) {
-                await this.read("assets/" + path + file, fields).then(json => {
+                await this.read("plano", "assets/" + path + file, fields).then(json => {
                     data = data.concat(json);
                 });
             }
@@ -90,7 +92,7 @@ export class CalendarDataBrokerService {
         });
     }
 
-    private async read(path: string, fields: string[]) {
+    private async read(plan: string, path: string, fields: string[]) {
         return new Promise<RawCalendarDataEntry[]>((resolve) => {
             this.http.get(path, {responseType: "text"}).subscribe(table => {
                 const data = this.csv(fields, /[,;|\t]/gsm, table) as RawCalendarDataEntry[];
@@ -125,6 +127,9 @@ export class CalendarDataBrokerService {
                     }
                 }
                 this.uniques.complete();
+                for (const rawCalendarDataEntry of data) {
+                    rawCalendarDataEntry.plan = plan;
+                }
                 resolve(data);
             });
         });
