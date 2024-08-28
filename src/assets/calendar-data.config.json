@@ -1,5 +1,6 @@
 {
     "dataPath": "data/",
+    "defaultPlan": "aktuell",
     "teachers": {
         "file": "LP.csv",
         "fields": ["surname", "name", "abbr"]
@@ -44,7 +45,11 @@
             "route": "def-mat",
             "files": [
                 {
-                    "path": "Stundenplan def sonder.csv",
+                    "path": "Stundenplan def sonder 1.csv",
+                    "fields": ["abbr", "year", "month", "day", "index", "lesson", "class", "room", "", "", "", "time", "duration", ""]
+                },
+                {
+                    "path": "Stundenplan def sonder 2.csv",
                     "fields": ["abbr", "year", "month", "day", "index", "lesson", "class", "room", "", "", "", "time", "duration", ""]
                 }
             ]
@@ -54,7 +59,11 @@
             "route": "prov-mat",
             "files": [
                 {
-                    "path": "Stundenplan prov sonder.csv",
+                    "path": "Stundenplan prov sonder 1.csv",
+                    "fields": ["abbr", "year", "month", "day", "index", "lesson", "class", "room", "", "", "", "time", "duration", ""]
+                },
+                {
+                    "path": "Stundenplan prov sonder 2.csv",
                     "fields": ["abbr", "year", "month", "day", "index", "lesson", "class", "room", "", "", "", "time", "duration", ""]
                 }
             ]

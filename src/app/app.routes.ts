@@ -10,5 +10,5 @@ export const routes: Routes = [{
     component: TestComponent
 }, {
     path: "**",
-    redirectTo: ""
+    component: MainComponent
 }];

@@ -1,5 +1,6 @@
 export interface CalendarDataConfig {
     dataPath: string,
+    defaultPlan: string,
     teachers: { file: string, fields: string[] },
     lessons: { file: string, fields: string[] },
     plans: [

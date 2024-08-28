@@ -182,7 +182,7 @@ export class CalendarDataQuery {
             }
 
             const duplicate = clean.find((duplicate) => {
-                return duplicate.index == obj.index && duplicate.room == obj.room && duplicate.lesson == obj.lesson;
+                return duplicate.index == obj.index && duplicate.room == obj.room && duplicate.lesson == obj.lesson && duplicate.datetime?.isSame(obj.datetime);
             });
             if (duplicate !== undefined) {
                 clean = clean.map((enteredEntry) => {
