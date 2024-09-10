@@ -7,6 +7,7 @@ export interface CalendarDataConfig {
         {
             plan: string,
             route: string,
+            hidden?: string,
             files: [
                 { path: string, fields: string[] }
             ]

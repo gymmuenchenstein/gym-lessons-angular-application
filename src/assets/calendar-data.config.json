@@ -33,6 +33,7 @@
         {
             "plan": "Provisorischer Stundenplan nächstes Semester",
             "route": "prov-next",
+            "hidden": "true",
             "files": [
                 {
                     "path": "Stundenplan prov next sem.csv",
@@ -57,6 +58,7 @@
         {
             "plan": "Provisorischer Sonderstundenplan Maturwochen",
             "route": "prov-mat",
+            "hidden": "true",
             "files": [
                 {
                     "path": "Stundenplan prov sonder 1.csv",
