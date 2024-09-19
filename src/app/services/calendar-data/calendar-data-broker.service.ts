@@ -8,6 +8,8 @@ import {CalendarDataUniques} from "./data-entries/calendar-data-uniques";
 import {CalendarFilterService} from "../calendar-filter/calendar-filter.service";
 import {CalendarDataEntry} from "./data-entries/calendar-data-entry";
 import {RawLessonDataEntry} from "./data-entries/raw-lesson-data-entry";
+import {ActivatedRoute, EventType, Router} from "@angular/router";
+import dayjs from "dayjs";
 
 @Injectable({
     providedIn: 'root'
@@ -26,16 +28,41 @@ export class CalendarDataBrokerService {
      */
     onInitialized: EventEmitter<void> = new EventEmitter();
 
-    constructor(private http: HttpClient, private filter: CalendarFilterService) {
-        this.init().then(() => {
-            this.onInitialized.emit();
-        });
+    constructor(private http: HttpClient, private filter: CalendarFilterService, private router: Router, private route: ActivatedRoute) {
+        this.router.events.subscribe(value => {
+            if (value.type == EventType.NavigationEnd)
+                this.init(route.snapshot.queryParams['plan']).then(() => {
+                    this.onInitialized.emit();
+                });
+        })
     }
 
-    private async init() {
+    private async init(route: string = "") {
         this.config = await this.readConfig();
         this.teachers = await this.readTeachers("assets/" + this.config.dataPath + this.config.teachers.file, this.config.teachers.fields);
-        this.raw = await this.readAll(this.config.dataPath, this.config.entries.files, this.config.entries.fields);
+
+        this.raw = [];
+
+        const selectedRoute = route != "" ? route : this.config.defaultPlan;
+        if (!this.uniques.plans.find(value => {
+            return value.route == route;
+        })) {
+            this.router.navigate([dayjs().format("YYYY-MM-DD")]).then();
+        }
+
+        for (const plan of this.config.plans) {
+            if (!plan.hidden && !this.uniques.plans.find((value, index) => value.route == plan.route))
+                this.uniques.plans.push({route: plan.route, name: plan.plan})
+        }
+        const plan = this.config.plans.find((value, index) => {
+            return value.route == selectedRoute;
+        });
+
+        if (plan?.files)
+            for (const file of plan?.files) {
+                const newRaw = await this.readAll(this.config.dataPath, [file?.path], file?.fields);
+                this.raw.push(...newRaw);
+            }
         await this.readLessons("assets/" + this.config.dataPath + this.config.lessons.file, this.config.lessons.fields);
     }
 
@@ -68,7 +95,9 @@ export class CalendarDataBrokerService {
             this.http.get(path, {responseType: "text"}).subscribe(table => {
                 const data = this.csv(fields, /[,;|\t]/gsm, table) as RawLessonDataEntry[];
                 for (const dat of data) {
-                    const index = this.uniques.lessons.findIndex((lesson) => { return lesson.short == dat.short });
+                    const index = this.uniques.lessons.findIndex((lesson) => {
+                        return lesson.short == dat.short
+                    });
                     if (index >= 0) {
                         this.uniques.lessons[index] = {full: dat.full, short: dat.short};
                     }

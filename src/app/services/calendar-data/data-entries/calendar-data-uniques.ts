@@ -4,6 +4,7 @@ export class CalendarDataUniques {
     rooms: string[] = []
     lessons: { full: string, short: string }[] = []
     classes: string[] = []
+    plans: { route: string, name: string }[] = []
 
     complete() {
         this.indices.sort((a, b) => {

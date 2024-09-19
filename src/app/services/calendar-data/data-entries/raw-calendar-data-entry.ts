@@ -9,5 +9,6 @@ export interface RawCalendarDataEntry {
     month: number,
     day: number,
     time: number,
-    duration: number
+    duration: number,
+    plan: string,
 }
