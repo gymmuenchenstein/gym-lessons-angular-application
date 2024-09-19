@@ -1,6 +1,6 @@
-import { Routes } from "@angular/router";
-import { MainComponent } from "./view/pages/main/main.component";
-import { TestComponent } from "./view/pages/test/test.component";
+import {Routes} from "@angular/router";
+import {MainComponent} from "./view/pages/main/main.component";
+import {TestComponent} from "./view/pages/test/test.component";
 
 export const routes: Routes = [{
     path: "",
@@ -9,6 +9,12 @@ export const routes: Routes = [{
     path: "test",
     component: TestComponent
 }, {
-    path: "**",
+    path: ":date",
+    component: MainComponent
+}, {
+    path: ":plan",
+    component: MainComponent
+}, {
+    path: ":plan/:date",
     component: MainComponent
 }];

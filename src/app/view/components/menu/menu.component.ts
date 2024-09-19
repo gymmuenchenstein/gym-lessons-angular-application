@@ -9,6 +9,7 @@ import {CalendarDataBrokerService} from "../../../services/calendar-data/calenda
 import {AccordionComponent, AccordionData} from "../accordion/accordion.component";
 import {MenuService} from "../../../model/services/menu.service";
 import {CalendarFilterService} from "../../../services/calendar-filter/calendar-filter.service";
+import {RoutingHelperService} from "../../../services/routing-helper.service";
 
 
 @Component({
@@ -149,10 +150,16 @@ export class MenuComponent {
         ]
     };
 
+    planData: AccordionData = {
+        label: "Stundenpläne",
+        nestedData: []
+    };
+
     searchList: { label: string, action: () => void }[] = [];
 
     constructor(private broker: CalendarDataBrokerService,
                 private filter: CalendarFilterService,
+                private routingHelper: RoutingHelperService,
                 protected menuService: MenuService) {
 
         this.broker.onInitialized.subscribe(() => {
@@ -165,6 +172,9 @@ export class MenuComponent {
 
             // Get all rooms
             this.getRoomData();
+
+            // Get all plans
+            this.getPlanData();
 
         });
 
@@ -239,6 +249,20 @@ export class MenuComponent {
         this.roomData.nestedData![3].nestedData![0].nestedData = nestedData.filter((s) => s.label.startsWith("T"));
         this.roomData.nestedData![3].nestedData![1].nestedData = nestedData.filter((s) => s.label.startsWith("K"));
 
+    }
+
+    private getPlanData(): void {
+
+        const plans = this.broker.unique().plans;
+        const nestedData = plans.map((plan) => {
+            return {
+                label: plan.name,
+                action: () => this.routingHelper.route(plan.route)
+            }
+        });
+        this.planData.nestedData = nestedData;
+
+        this.searchList = this.searchList.concat(nestedData);
     }
 
     protected updateTimetable(event: Event) {

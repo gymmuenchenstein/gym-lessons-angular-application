@@ -37,13 +37,16 @@ export class CalendarDataBrokerService {
     }
 
     private async init(route: string = "") {
-        var t = Date.now();
         this.config = await this.readConfig();
         this.teachers = await this.readTeachers("assets/" + this.config.dataPath + this.config.teachers.file, this.config.teachers.fields);
 
         this.raw = [];
 
         const selectedRoute = route != "" ? route : this.config.defaultPlan;
+        for (const plan of this.config.plans) {
+            if (!plan.hidden && !this.uniques.plans.find((value, index) => value.route == plan.route))
+                this.uniques.plans.push({route: plan.route, name: plan.plan})
+        }
         const plan = this.config.plans.find((value, index) => {
             return value.route == selectedRoute;
         });
@@ -54,7 +57,6 @@ export class CalendarDataBrokerService {
                 this.raw.push(...newRaw);
             }
         await this.readLessons("assets/" + this.config.dataPath + this.config.lessons.file, this.config.lessons.fields);
-        console.log(Date.now() - t);
     }
 
     private async readConfig() {
