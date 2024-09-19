@@ -29,6 +29,7 @@ export class RoutingHelperService {
     public setRoute(planRoute: string, date: Dayjs | undefined = undefined) {
         if (date == undefined)
             date = dayjs()
+
         this.router.navigate([planRoute, date.format("YYYY-MM-DD")]).then();
         return this;
     }

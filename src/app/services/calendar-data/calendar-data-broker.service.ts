@@ -9,6 +9,7 @@ import {CalendarFilterService} from "../calendar-filter/calendar-filter.service"
 import {CalendarDataEntry} from "./data-entries/calendar-data-entry";
 import {RawLessonDataEntry} from "./data-entries/raw-lesson-data-entry";
 import {ActivatedRoute, EventType, Router} from "@angular/router";
+import dayjs from "dayjs";
 
 @Injectable({
     providedIn: 'root'
@@ -30,7 +31,7 @@ export class CalendarDataBrokerService {
     constructor(private http: HttpClient, private filter: CalendarFilterService, private router: Router, private route: ActivatedRoute) {
         this.router.events.subscribe(value => {
             if (value.type == EventType.NavigationEnd)
-                this.init(value.url.split("/")[1]).then(() => {
+                this.init(route.snapshot.queryParams['plan']).then(() => {
                     this.onInitialized.emit();
                 });
         })
@@ -43,6 +44,12 @@ export class CalendarDataBrokerService {
         this.raw = [];
 
         const selectedRoute = route != "" ? route : this.config.defaultPlan;
+        if (!this.uniques.plans.find(value => {
+            return value.route == route;
+        })) {
+            this.router.navigate([dayjs().format("YYYY-MM-DD")]).then();
+        }
+
         for (const plan of this.config.plans) {
             if (!plan.hidden && !this.uniques.plans.find((value, index) => value.route == plan.route))
                 this.uniques.plans.push({route: plan.route, name: plan.plan})
