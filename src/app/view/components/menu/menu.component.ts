@@ -257,7 +257,7 @@ export class MenuComponent {
         const nestedData = plans.map((plan) => {
             return {
                 label: plan.name,
-                action: () => this.routingHelper.route(plan.route)
+                action: () => this.routingHelper.setRoute(plan.route)
             }
         });
         this.planData.nestedData = nestedData;
