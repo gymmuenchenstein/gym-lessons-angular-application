@@ -1,5 +1,6 @@
 {
     "dataPath": "data/",
+    "defaultPlan": "aktuell",
     "teachers": {
         "file": "LP.csv",
         "fields": ["surname", "name", "abbr"]
@@ -8,10 +9,66 @@
         "file": "LUE.csv",
         "fields": ["full", "short"]
     },
-    "entries": {
-        "files": [
-            "Semester 2.csv"
-        ],
-        "fields": ["abbr", "year", "month", "day", "index", "lesson", "class", "room", "", "", "", "time", "duration", ""]
-    }
+    "plans": [
+        {
+            "plan": "Defnitiver Stundenplan",
+            "route": "aktuell",
+            "files": [
+                {
+                    "path": "Stundenplan def.csv",
+                    "fields": ["abbr", "year", "month", "day", "index", "lesson", "class", "room", "", "", "", "time", "duration", ""]
+                }
+            ]
+        },
+        {
+            "plan": "Defnitiver Stundenplan nächstes Semester",
+            "route": "def-next",
+            "files": [
+                {
+                    "path": "Stundenplan def next sem.csv",
+                    "fields": ["abbr", "year", "month", "day", "index", "lesson", "class", "room", "", "", "", "time", "duration", ""]
+                }
+            ]
+        },
+        {
+            "plan": "Provisorischer Stundenplan nächstes Semester",
+            "route": "prov-next",
+            "hidden": "true",
+            "files": [
+                {
+                    "path": "Stundenplan prov next sem.csv",
+                    "fields": ["abbr", "year", "month", "day", "index", "lesson", "class", "room", "", "", "", "time", "duration", ""]
+                }
+            ]
+        },
+        {
+            "plan": "Defnitiv Sonderstundenplan Maturwochen",
+            "route": "def-mat",
+            "files": [
+                {
+                    "path": "Stundenplan def sonder 1.csv",
+                    "fields": ["abbr", "year", "month", "day", "index", "lesson", "class", "room", "", "", "", "time", "duration", ""]
+                },
+                {
+                    "path": "Stundenplan def sonder 2.csv",
+                    "fields": ["abbr", "year", "month", "day", "index", "lesson", "class", "room", "", "", "", "time", "duration", ""]
+                }
+            ]
+        },
+        {
+            "plan": "Provisorischer Sonderstundenplan Maturwochen",
+            "route": "prov-mat",
+            "hidden": "true",
+            "files": [
+                {
+                    "path": "Stundenplan prov sonder 1.csv",
+                    "fields": ["abbr", "year", "month", "day", "index", "lesson", "class", "room", "", "", "", "time", "duration", ""]
+                },
+                {
+                    "path": "Stundenplan prov sonder 2.csv",
+                    "fields": ["abbr", "year", "month", "day", "index", "lesson", "class", "room", "", "", "", "time", "duration", ""]
+                }
+            ]
+        }
+    ]
 }
