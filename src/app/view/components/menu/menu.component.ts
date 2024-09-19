@@ -164,6 +164,8 @@ export class MenuComponent {
 
         this.broker.onInitialized.subscribe(() => {
 
+            this.searchList = [];
+
             // Get all classes
             this.getClassData();
 
